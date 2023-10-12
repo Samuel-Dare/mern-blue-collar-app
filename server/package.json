@@ -4,7 +4,10 @@
   "description": "This is the backend for the blue-collar project developed by Sam 'Dare",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "build": "npm i",
+    "debug": "ndb server.js"
   },
   "author": "Sam 'Dare",
   "license": "ISC",
