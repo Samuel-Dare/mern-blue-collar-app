@@ -1,16 +1,22 @@
 // import "./App.css";
 
-import ThemeToggle from './ui/ThemeToggle';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import PageNotFound from './pages/PageNotFound';
+import AppLayout from './ui/AppLayout';
 
 function App() {
   const className = 'text-sm text-blue-500 hover:text-blue-600 hover:underline';
 
   return (
-    <div>
-      <ThemeToggle />
-      <p className={className}>Blue Collar Application</p>
-      <h1 className="tracking-widest">CODES</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

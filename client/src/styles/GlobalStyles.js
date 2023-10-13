@@ -1,19 +1,33 @@
-// Light Mode Palette:
+import { createGlobalStyle } from 'styled-components';
 
-// Primary Background: Light gray (e.g., #F5F5F5)
-// Primary Text: Dark gray (e.g., #333333)
-// Primary Accent (Links): Navy blue (e.g., #007BFF)
-// Secondary Accent (Buttons): Orange (e.g., #FF8800)
-// Background Highlight: White (e.g., #FFFFFF)
-// Secondary Background (Cards): Light blue-gray (e.g., #E5E5E5)
-// Secondary Text: Medium gray (e.g., #666666)
+const GlobalStyles = createGlobalStyle`
+:root {
+     &, &.light {
+        
+        /* Light Mode Palette */
 
-// Dark Mode Palette:
+        --color-background: #F5F5F5;
+        --color-text: #333333;
+        --color-accent: #007BFF;
+        --color-button: #FF8800;
+        --color-highlight: #FFFFFF;
+        --color-cards: #E5E5E5;
+        --color-secondary-text: #666666;
+    }
 
-// Primary Background: Dark gray or navy blue (e.g., #333333)
-// Primary Text: Light gray (e.g., #F5F5F5)
-// Primary Accent (Links): Light blue (e.g., #80B3FF)
-// Secondary Accent (Buttons): Light orange (e.g., #FFAA33)
-// Background Highlight: Slightly darker gray (e.g., #444444)
-// Secondary Background (Cards): Medium gray (e.g., #666666)
-// Secondary Text: Light blue-gray (e.g., #C5C5C5)
+    &.dark {
+
+        /* Dark Mode Palette */
+
+        --color-background: #333333;
+        --color-text: #F5F5F5;
+        --color-accent: #80B3FF;
+        --color-button: #FFAA33;
+        --color-highlight: #444444;
+        --color-cards: #666666;
+        --color-secondary-text: #C5C5C5;
+    }
+}
+`;
+
+export default GlobalStyles;
