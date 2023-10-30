@@ -10,7 +10,7 @@ process.on("uncaughtException", (err) => {
 
 const app = require("./app");
 
-const PORT = process.env.PORT || 9003;
+const PORT = process.env.PORT || 7001;
 
 mongoose
   .connect(process.env.MONGO_URL, {

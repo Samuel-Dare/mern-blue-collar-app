@@ -1,0 +1,32 @@
+.inputLabel {
+  color: var(--color-grey-500);
+}
+
+.inputField {
+  margin: 0.5rem 0 1rem;
+  width: 100%;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-grey-400);
+  padding: 0.5rem;
+}
+
+.inputField:focus {
+  outline: none;
+}
+
+.inputField:invalid[focus='true'] {
+  border: 1px solid var(--color-red-700);
+}
+
+.inputField:invalid[focus='true'] ~ .errMsg {
+  display: block;
+}
+
+.errMsg {
+  color: var(--color-red-700);
+  font-size: 10px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  line-height: 15px;
+  display: none;
+}

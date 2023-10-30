@@ -1,30 +1,11 @@
-import React from 'react';
-import ThemeToggle from './ThemeToggle';
-import { NavLink } from 'react-router-dom';
+import Logo from './Logo';
+import NavListItems from './MainNavListItems';
 
 export default function MainNav() {
   return (
-    <nav className="bg-colorAccent flex list-none justify-between p-10">
-      <div>
-        <li>
-          <NavLink to="/">BlueCollars</NavLink>
-        </li>
-      </div>
-
-      <div className="flex justify-between space-x-5">
-        <li>
-          <NavLink>Home</NavLink>
-        </li>
-        <li>
-          <NavLink>Home</NavLink>
-        </li>
-        <li>
-          <NavLink>Home</NavLink>
-        </li>
-        <li>
-          <ThemeToggle />
-        </li>
-      </div>
+    <nav className="hidden items-center justify-between bg-colorGrey400 p-10 text-colorGrey800 md:flex ">
+      <Logo />
+      <NavListItems />
     </nav>
   );
 }
