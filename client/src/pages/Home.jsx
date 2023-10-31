@@ -1,5 +1,5 @@
 import React from 'react';
-import OnDemandServices from '../ui/onDemandServices';
+import OnDemandServices from '../ui/OnDemandServices';
 import Header from '../ui/Header';
 import HighRatedBCollarsProfileReview from '../ui/HighRatedBCollarsProfileReview';
 import Reviews from '../ui/Reviews';
