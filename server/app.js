@@ -24,6 +24,15 @@ app.enable("trust proxy");
 
 // GLOBAL MIDDLEWARES
 
+app.use((req, res, next) => {
+  // Set Cache-Control headers to prevent caching
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, private"
+  );
+  next();
+});
+
 // Set security HTTP headers
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));

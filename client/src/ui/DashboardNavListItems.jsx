@@ -1,16 +1,30 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaBars } from 'react-icons/fa';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { logout } from '../services/apiUsers';
+import { useQueryClient } from '@tanstack/react-query';
 
 const liStyle = 'border-colorBrand500 border-b p-5 md:border-none md:p-0';
 
 function DashboardNavListItems() {
   const [selectedTab, setSelectedTab] = useState('Dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false); // State to manage sidebar visibility
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
+  };
+
+  const hanldeLogout = async () => {
+    try {
+      await fetch(logout);
+
+      queryClient.removeQueries();
+      navigate('/login', { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -54,7 +68,7 @@ function DashboardNavListItems() {
       </li>
       <li
         className={`mb-2 ${selectedTab === 'Logout' ? 'bg-blue-500' : ''}`}
-        onClick={() => handleTabClick('Logout')}
+        onClick={hanldeLogout}
       >
         <a href="#" className="hover:colorRed700 block rounded-full px-4 py-2">
           Logout

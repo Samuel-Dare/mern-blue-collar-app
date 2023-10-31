@@ -8,6 +8,8 @@ function DashboardHome() {
 
   if (isLoading) return <p>isLoading...</p>;
 
+  if (!data || error) return <p>error...</p>;
+
   const { firstName, lastName } = data;
 
   return (

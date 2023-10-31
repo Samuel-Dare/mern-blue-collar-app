@@ -7,9 +7,11 @@ import { getMe } from '../services/apiUsers';
 
 export default function DashboardNav() {
   const [openDashboardNavItems, setOpenDashboardNavItems] = useState(false);
-  const { data, isLoading } = useMeData(getMe);
+  const { data, isLoading, error } = useMeData(getMe);
 
   if (isLoading) return <p>isLoading...</p>;
+
+  if (!data || error) return <p>error...</p>;
 
   const { firstName, lastName, photo } = data;
 

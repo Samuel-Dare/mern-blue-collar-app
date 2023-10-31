@@ -12,6 +12,7 @@ import Map from './ui/Map';
 import FindABCollar from './pages/FindABCollar';
 import Dashboard from './pages/Dashboard';
 import { DashboardSidebarProvider } from './context/DashboardSidebarContext';
+import Logout from './ui/Logout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +36,7 @@ function App() {
           </Route>
           <Route path="/find-a-professional" element={<FindABCollar />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

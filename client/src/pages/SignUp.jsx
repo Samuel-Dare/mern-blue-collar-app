@@ -51,7 +51,7 @@ const SignUp = () => {
       id: 4,
       name: 'phone',
       placeholder: 'Phone Number',
-      type: 'phone',
+      type: 'tel',
       label: 'Phone Number',
       errorMessage: 'A valid phone number is required',
       required: true,

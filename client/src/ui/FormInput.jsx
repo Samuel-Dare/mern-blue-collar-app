@@ -2,8 +2,6 @@ import { useState } from 'react';
 import './formInput.css';
 
 const FormInput = (props) => {
-  console.log(props);
-
   const [focus, setFocus] = useState(false);
 
   const handleFocus = () => setFocus(true);

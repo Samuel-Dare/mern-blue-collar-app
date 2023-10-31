@@ -70,8 +70,26 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, "name", "email");
+  const filteredBody = filterObj(req.body, "firstName", "lastName");
   if (req.file) filteredBody.photo = req.file.filename;
+
+  console.log(filteredBody);
+
+  const { firstName, lastName, photo } = filteredBody;
+
+  // Check if the user made any changes
+  const formIsNotchanged =
+    firstName === req.user.firstName &&
+    lastName === req.user.lastName &&
+    photo === req.user.file;
+
+  if (formIsNotchanged) {
+    // If no changes were made, respond with a message
+    return res.status(204).json({
+      status: "success",
+      message: "No changes were made",
+    });
+  }
 
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
