@@ -1,6 +1,6 @@
 import Map from '../ui/Map';
-import FilterBCollars from '../ui/filterBCollars';
-import FilterBCollarsNav from '../ui/filterBCollarsNav';
+import FilterBCollars from '../ui/FilterBCollars';
+import FilterBCollarsNav from '../ui/FilterBCollarsNav';
 
 function FindABCollar() {
   return (
