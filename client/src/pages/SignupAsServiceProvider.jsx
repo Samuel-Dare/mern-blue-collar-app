@@ -5,9 +5,9 @@ import Button from '../ui/Button';
 import FormInputForSelectElement from '../ui/FormInputForSelectElement';
 import { useOverlay } from '../context/OverlayContext';
 import OverlayContent from '../ui/OverlayContent';
-import SignUp from './Signup';
-import LogIn from './Login';
 import { AvailableServices, ServiceProvidersLocations } from '../config/config';
+import Signup from './Signup';
+import Login from './Login';
 
 function SignupAsServiceProvider() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -102,10 +102,10 @@ function SignupAsServiceProvider() {
 
       <OverlayContent>
         {buttonClicked === 'signup' && (
-          <SignUp valuesSignupAsProfessional={values} />
+          <Signup valuesSignupAsProfessional={values} />
         )}
         {buttonClicked === 'login' && (
-          <LogIn valuesSignupAsProfessional={values} />
+          <Login valuesSignupAsProfessional={values} />
         )}
       </OverlayContent>
     </>
