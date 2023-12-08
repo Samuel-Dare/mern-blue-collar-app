@@ -1,4 +1,4 @@
-function HighRatedBCollarsProfileReviewReusableComponent({
+function HighRatedServiceProvidersProfileComponent({
   bCollarName,
   positiveReviewsPercentage,
   numberOfCompletedTasks,
@@ -11,11 +11,11 @@ function HighRatedBCollarsProfileReviewReusableComponent({
   profileAbout,
 }) {
   return (
-    <div className="border-colorGrey50 shadow-colorGrey800 divide-colorGrey400 flex w-full flex-col divide-y border shadow-sm">
+    <div className="flex w-full flex-col divide-y divide-colorGrey400 border border-colorGrey50 shadow-sm shadow-colorGrey800">
       <div className="p-5">
         <ul className="flex items-center">
           <img src="/assets/sam.jpeg" alt="" width="60" />
-          <h2 className="text-h2 ps-5">{bCollarName}</h2>
+          <h2 className="ps-5 text-h2">{bCollarName}</h2>
         </ul>
         <ul>
           <li>{positiveReviewsPercentage}% positive reviews</li>
@@ -47,13 +47,13 @@ function HighRatedBCollarsProfileReviewReusableComponent({
   );
 }
 
-function HighRatedBCollarsProfileReview() {
+function HighRatedServiceProvidersProfileReview() {
   return (
     <div className="p-10 md:p-16 lg:p-20">
-      <h1 className="text-h1 mb-5 md:mb-10">Some Highly Rated BCollars</h1>
+      <h1 className="mb-5 text-h1 md:mb-10">Some Highly Rated BCollars</h1>
 
       <div className="grid gap-5 md:grid-cols-3 md:gap-10">
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -66,7 +66,7 @@ function HighRatedBCollarsProfileReview() {
           profileAbout="I'm the right person for the job. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, tempora vitae expedita, iure nam ullam omnis pariatur, ipsa tenetur quae numquam deserunt fugit atque possimus dolores ab recusandae nulla aut."
         />
 
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -79,7 +79,7 @@ function HighRatedBCollarsProfileReview() {
           profileAbout="I'm the right person for the job. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, tempora vitae expedita, iure nam ullam omnis pariatur, ipsa tenetur quae numquam deserunt fugit atque possimus dolores ab recusandae nulla aut."
         />
 
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -92,7 +92,7 @@ function HighRatedBCollarsProfileReview() {
           profileAbout="I'm the right person for the job. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, tempora vitae expedita, iure nam ullam omnis pariatur, ipsa tenetur quae numquam deserunt fugit atque possimus dolores ab recusandae nulla aut."
         />
 
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -105,7 +105,7 @@ function HighRatedBCollarsProfileReview() {
           profileAbout="I'm the right person for the job. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, tempora vitae expedita, iure nam ullam omnis pariatur, ipsa tenetur quae numquam deserunt fugit atque possimus dolores ab recusandae nulla aut."
         />
 
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -118,7 +118,7 @@ function HighRatedBCollarsProfileReview() {
           profileAbout="I'm the right person for the job. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, tempora vitae expedita, iure nam ullam omnis pariatur, ipsa tenetur quae numquam deserunt fugit atque possimus dolores ab recusandae nulla aut."
         />
 
-        <HighRatedBCollarsProfileReviewReusableComponent
+        <HighRatedServiceProvidersProfileComponent
           bCollarName="Sam D."
           positiveReviewsPercentage="100"
           numberOfCompletedTasks="170"
@@ -135,4 +135,4 @@ function HighRatedBCollarsProfileReview() {
   );
 }
 
-export default HighRatedBCollarsProfileReview;
+export default HighRatedServiceProvidersProfileReview;

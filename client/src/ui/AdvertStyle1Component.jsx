@@ -1,9 +1,9 @@
 import React from 'react';
 
-function AdvertStyle1ReusableComponent({ reverseOrder = false }) {
+function AdvertStyle1Component({ reverseOrder = false }) {
   return (
     <div
-      className={`bg-colorGrey300 grid md:grid-cols-2 ${
+      className={`grid bg-colorGrey300 md:grid-cols-2 ${
         reverseOrder ? 'md:grid-flow-col' : ''
       }`}
     >
@@ -47,4 +47,4 @@ function AdvertStyle1ReusableComponent({ reverseOrder = false }) {
   );
 }
 
-export default AdvertStyle1ReusableComponent;
+export default AdvertStyle1Component;

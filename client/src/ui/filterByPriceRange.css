@@ -1,0 +1,25 @@
+.slider-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-brand-800);
+  border: 2px solid var(--color-brand-900);
+  cursor: pointer;
+  outline: none;
+  color: var(--color-grey-100);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+}
+
+.slider-thumbActive {
+  background-color: #1f309e;
+}
+
+.slider-track-0 {
+  height: 10px;
+  border-radius: 10px;
+}
+
+/* YourComponent.css */

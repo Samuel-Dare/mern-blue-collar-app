@@ -5,14 +5,18 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
 import AppLayout from './ui/AppLayout';
-import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
-import BecomeABCollar from './pages/BecomeABCollar';
-import Map from './ui/Map';
-import FindABCollar from './pages/FindABCollar';
 import Dashboard from './pages/Dashboard';
-import { DashboardSidebarProvider } from './context/DashboardSidebarContext';
-import Logout from './ui/Logout';
+import Logout from './pages/Logout';
+import SignupLogin from './pages/SignupLogin';
+import TaskDescriptionForm from './pages/TaskDescriptionForm';
+import ServiceProviderProfileCard from './ui/ServiceProviderProfileCard';
+import AppLayout2 from './ui/AppLayout2';
+import SignUp from './pages/Signup';
+import SignupAsServiceProvider from './pages/SignupAsServiceProvider';
+import FindServiceProvider from './pages/FindServiceProvider';
+import { SearchProvider } from './context/SearchContext';
+import { TaskInfoProvider } from './context/TaskInfoContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,18 +31,39 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Home />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/become-a-bcollar" element={<BecomeABCollar />} />
-          </Route>
-          <Route path="/find-a-professional" element={<FindABCollar />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+        <SearchProvider>
+          <TaskInfoProvider>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route index element={<Home />} />
+              </Route>
+              <Route element={<AppLayout2 />}>
+                <Route
+                  path="/task-description-form"
+                  element={<TaskDescriptionForm />}
+                />
+                <Route
+                  path="/find-a-professional"
+                  element={<FindServiceProvider />}
+                />
+              </Route>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/signup-login" element={<SignupLogin />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route
+                path="/become-a-professional"
+                element={<SignupAsServiceProvider />}
+              />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route
+                path="/available-professionals"
+                element={<ServiceProviderProfileCard />}
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </TaskInfoProvider>
+        </SearchProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

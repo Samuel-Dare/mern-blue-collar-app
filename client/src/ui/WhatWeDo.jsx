@@ -1,11 +1,11 @@
 const WhatWeDo = () => {
   return (
-    <div className="bg-gray-100 p-10 md:p-16 lg:p-20">
-      <div className="container mx-auto">
-        <h2 className="text-gray-800 mb-6 text-center text-3xl font-bold md:text-4xl">
+    <div className="p-10 md:p-16 lg:p-20">
+      <div className="mx-auto">
+        <h2 className="mb-6 text-center text-3xl font-bold md:text-4xl">
           Why You Should Choose Us?
         </h2>
-        <p className="text-gray-600 mb-10 text-center text-lg">
+        <p className="mb-10 text-center text-lg">
           We connect you with local professionals across a wide range of
           blue-collar services, making your life easier.
         </p>
@@ -21,7 +21,8 @@ const WhatWeDo = () => {
             <h3 className="mb-5 text-2xl font-semibold">
               &#10003; Reliable Professionals
             </h3>
-            <p className="text-gray-600">
+            <p>
+              {' '}
               We partner with trusted professionals in your local area to
               provide a wide range of services.
             </p>

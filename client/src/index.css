@@ -9,6 +9,10 @@
     @apply border-colorSecondaryText rounded-full border px-4 py-2 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-yellow-400 md:px-6 md:py-3;
   } */
 
+  .datePickerInput {
+    border-radius: 50px;
+  }
+
   /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
   .loader {
     width: 45px;

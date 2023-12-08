@@ -4,10 +4,12 @@ import { Navigate } from 'react-router-dom';
 
 import FormInput from '../ui/FormInput';
 import Button from '../ui/Button';
+import { useOverlay } from '../context/OverlayContext';
+import { urlSignup } from '../services/apiUsers';
+import { urlSignupAsProfessional } from '../services/apiServiceProviders';
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-const SignUp = () => {
+const SignUp = ({ valuesSignupAsProfessional }) => {
+  const { isOverlayVisible } = useOverlay();
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -83,25 +85,63 @@ const SignUp = () => {
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  // console.log(values);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('firstName', values.firstName);
-      formData.append('lastName', values.lastName);
-      formData.append('email', values.email);
-      formData.append('phone', values.phone);
-      formData.append('password', values.password);
-      formData.append('passwordConfirm', values.confirmPassword);
 
-      await Axios.post(`${BASE_URL}/api/v1/users/signup`, formData).then(() =>
-        setGoToLogin(true),
-      );
-      alert("You've successfully signed up");
+    let valuesSignup = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      password: values.password,
+      passwordConfirm: values.confirmPassword,
+    };
+
+    if (valuesSignupAsProfessional && isOverlayVisible) {
+      valuesSignup = { ...valuesSignup, role: 'professional' };
+    }
+
+    const signupRequest = async () => {
+      try {
+        const response = await Axios.post(urlSignup, valuesSignup);
+        const data = response.data;
+        console.log(data);
+        return data;
+      } catch (err) {
+        console.error('Error in the signup request:', err);
+      }
+    };
+
+    const signupAsProfessionalRequest = async (userId) => {
+      try {
+        const response = await Axios.post(urlSignupAsProfessional, {
+          ...valuesSignupAsProfessional,
+          user: userId,
+        });
+        const data = response.data;
+        console.log(data);
+        return data;
+      } catch (err) {
+        console.error('Error in the signupAsProfessional request:', err);
+      }
+    };
+
+    try {
+      if (valuesSignupAsProfessional && isOverlayVisible) {
+        const data = await signupRequest();
+        if (data.status === 'success') {
+          await signupAsProfessionalRequest(data.data.user._id);
+        }
+      } else {
+        const data = await signupRequest();
+        if (data.status === 'success') {
+          alert("You've successfully signed up");
+          setGoToLogin(true);
+        }
+      }
     } catch (err) {
-      console.log(err);
+      console.log('💣ERROR', err);
     }
   };
 
@@ -111,13 +151,27 @@ const SignUp = () => {
   }
 
   return (
-    <div className="mx-auto mt-10 w-[400px] bg-colorGrey50 p-10 md:p-16">
+    <div className="mt-10 bg-colorGrey100 p-10 md:mx-auto md:w-[500px] md:p-16">
       <form onSubmit={handleSubmit}>
         <h1 className="pb-2 text-h1">Register</h1>
         {inputs.map((input) => (
           <FormInput key={input.id} onChange={handleChange} {...input} />
         ))}
-        <Button type="primary">Sign Up</Button>
+
+        <Button type="primaryFull">
+          {valuesSignupAsProfessional && isOverlayVisible
+            ? 'Become A BCollar'
+            : 'Sign Up'}
+        </Button>
+
+        {!valuesSignupAsProfessional && !isOverlayVisible && (
+          <div className="mt-10 text-center">
+            <span>Already have an account? </span>
+            <Button to="/login" type="pointer">
+              Log in
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );

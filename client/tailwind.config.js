@@ -6,6 +6,7 @@ module.exports = {
     fontFamily: {
       sans: 'Roboto Mono, monospace',
     },
+
     colors: {
       colorGrey0: 'var(--color-grey-0)',
       colorGrey50: 'var(--color-grey-50)',
@@ -48,6 +49,7 @@ module.exports = {
       colorBrand800: 'var(--color-brand-800)',
       colorBrand900: 'var(--color-brand-900)',
     },
+
     extend: {
       fontSize: {
         logo: '3rem',

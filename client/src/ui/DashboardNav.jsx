@@ -3,11 +3,13 @@ import DashboardNavListItems from './DashboardNavListItems';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import { useMeData } from '../hooks/useData';
-import { getMe } from '../services/apiUsers';
+import { urlGetMe } from '../services/apiUsers';
+import { useScreenSize } from '../context/ScreenSize';
 
 export default function DashboardNav() {
   const [openDashboardNavItems, setOpenDashboardNavItems] = useState(false);
-  const { data, isLoading, error } = useMeData(getMe);
+  const { data, isLoading, error } = useMeData(urlGetMe);
+  const { isSmallScreen } = useScreenSize();
 
   if (isLoading) return <p>isLoading...</p>;
 
@@ -20,27 +22,28 @@ export default function DashboardNav() {
   };
 
   return (
-    <nav className="hidden items-center justify-between bg-colorGrey400 px-24 py-10 text-colorGrey800 shadow-md md:flex">
+    <nav className="fixed left-0 right-0 top-0 flex items-center justify-between bg-colorGrey400 px-24 text-colorGrey800 shadow-md">
       <Logo />
-      {/* <DashboardNavListItems /> */}
-      <div className="flex gap-16">
-        <ThemeToggle />
 
-        <div
-          className="flex items-center justify-center gap-3"
-          onClick={handleClick}
-        >
-          <span className="text-xl font-semibold">
-            {firstName} {lastName}
-          </span>
-          <img
-            src={`${import.meta.env.VITE_BASE_URL}/img/users/${photo}`}
-            alt="Profile-img"
-            className="rounded-full"
-            width={30}
-          />
+      {!isSmallScreen && (
+        <div className="flex gap-16">
+          <ThemeToggle />
+          <div
+            className="flex items-center justify-center gap-3"
+            onClick={handleClick}
+          >
+            <span className="text-xl font-semibold">
+              {firstName} {lastName}
+            </span>
+            <img
+              src={`${import.meta.env.VITE_BASE_URL}/img/users/${photo}`}
+              alt="Profile-img"
+              className="rounded-full"
+              width={30}
+            />
+          </div>
         </div>
-      </div>
+      )}
       {openDashboardNavItems && <DashboardNavListItems />}
     </nav>
   );

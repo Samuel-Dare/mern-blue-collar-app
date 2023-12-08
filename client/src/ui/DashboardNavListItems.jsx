@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
-import { logout } from '../services/apiUsers';
 import { useQueryClient } from '@tanstack/react-query';
+import { urlLogout } from '../services/apiUsers';
 
 const liStyle = 'border-colorBrand500 border-b p-5 md:border-none md:p-0';
 
@@ -18,7 +18,7 @@ function DashboardNavListItems() {
 
   const hanldeLogout = async () => {
     try {
-      await fetch(logout);
+      await fetch(urlLogout);
 
       queryClient.removeQueries();
       navigate('/login', { replace: true });

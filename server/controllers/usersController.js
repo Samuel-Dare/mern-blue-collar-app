@@ -70,18 +70,24 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, "firstName", "lastName");
+  const filteredBody = filterObj(
+    req.body,
+    "firstName",
+    "lastName",
+    "phone",
+    "role"
+  );
   if (req.file) filteredBody.photo = req.file.filename;
 
-  console.log(filteredBody);
-
-  const { firstName, lastName, photo } = filteredBody;
+  const { firstName, lastName, photo, phone, role } = filteredBody;
 
   // Check if the user made any changes
   const formIsNotchanged =
     firstName === req.user.firstName &&
     lastName === req.user.lastName &&
-    photo === req.user.file;
+    photo === req.user.file &&
+    phone === req.user.phone &&
+    role === req.user.role;
 
   if (formIsNotchanged) {
     // If no changes were made, respond with a message

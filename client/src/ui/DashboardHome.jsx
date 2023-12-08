@@ -1,10 +1,10 @@
 import { useDashboardSidebar } from '../context/DashboardSidebarContext';
 import { useMeData } from '../hooks/useData';
-import { getMe } from '../services/apiUsers';
+import { urlGetMe } from '../services/apiUsers';
 
 function DashboardHome() {
   const { selectedSidebarItem } = useDashboardSidebar();
-  const { data, isLoading, error } = useMeData(getMe);
+  const { data, isLoading, error } = useMeData(urlGetMe);
 
   if (isLoading) return <p>isLoading...</p>;
 

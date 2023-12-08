@@ -34,9 +34,11 @@ exports.resizeArticleImage = (req, res, next) => {
 exports.resizeUserPhoto = (req, res, next) => {
   if (!req.file) return next();
 
-  if (!req.user)
-    req.file.filename = `user-${req.body.email}-${Date.now()}.jpeg`;
-  else req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  // if (!req.user)
+  //   req.file.filename = `user-${req.body.email}-${Date.now()}.jpeg`;
+  // else
+
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   sharp(req.file.buffer)
     .resize(500, 500)

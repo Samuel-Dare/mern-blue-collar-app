@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 import FormInput from './FormInput';
-import { getMe } from '../services/apiUsers';
+import { urlGetMe } from '../services/apiUsers';
 import { useMeData } from '../hooks/useData';
 import Button from './Button';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function ChangeProfileDetails() {
-  const { data, isLoading, error } = useMeData(getMe);
+  const { data, isLoading, error } = useMeData(urlGetMe);
 
   const [values, setValues] = useState({
     firstName: '',

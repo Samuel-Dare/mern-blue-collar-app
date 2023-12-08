@@ -7,6 +7,7 @@ const uploadsController = require("../controllers/uploadsController");
 const router = express.Router();
 
 router.post("/signup", authsController.signup);
+
 router.post("/login", authsController.login);
 router.get("/logout", authsController.logout);
 

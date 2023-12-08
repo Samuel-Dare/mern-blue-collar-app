@@ -1,7 +1,7 @@
 import React from 'react';
 import OnDemandServices from '../ui/OnDemandServices';
 import Header from '../ui/Header';
-import HighRatedBCollarsProfileReview from '../ui/HighRatedBCollarsProfileReview';
+import HighRatedServiceProvidersProfileReview from '../ui/HighRatedServiceProvidersProfileReview';
 import Reviews from '../ui/Reviews';
 import ReadyToGetStarted from '../ui/ReadyToGetStarted';
 import WhatWeDo from '../ui/WhatWeDo';
@@ -14,7 +14,7 @@ export default function Home() {
       <Header />
       <OnDemandServices />
       <Advert1 />
-      <HighRatedBCollarsProfileReview />
+      <HighRatedServiceProvidersProfileReview />
       <Advert2 />
       <WhatWeDo />
       <Reviews />

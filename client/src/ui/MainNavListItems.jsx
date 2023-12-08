@@ -2,18 +2,28 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
+import ServicesDropdown from './ServicesDropdown';
+import { useScreenSize } from '../context/ScreenSize';
 
-const liStyle = 'border-colorBrand500 border-b p-5 md:border-none md:p-0';
+const liStyle =
+  'border-colorBrand500 border-b p-5 md:border-none text-2xl md:p-0';
 
 function NavListItems() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
+
+  const { isSmallScreen } = useScreenSize();
+
+  const toggleDropdown = () => {
+    setIsServiceDropdownOpen(!isServiceDropdownOpen);
+  };
 
   return (
-    <div className="md:flex md:justify-between">
+    <div className="text-colorGrey800 md:flex md:justify-between">
       {/* Mobile Menu Icon */}
       <button
+        className="focus:outline-none md:hidden"
         onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-        className="focus:bg-colorGrey100-5 md:hidden"
       >
         <FaBars />
       </button>
@@ -21,25 +31,34 @@ function NavListItems() {
       {/* Navigation Menu (Hidden on Small Screens) */}
       <ul
         className={`${
-          isMobileMenuOpen
-            ? 'bg-colorGrey50  border-colorBrand500 absolute left-0 h-screen w-1/3  space-y-5 border-y-2 p-5 opacity-95'
+          isSmallScreen && isMobileMenuOpen
+            ? 'absolute left-0 top-0 h-screen w-2/3 space-y-5 border-y-2 border-colorBrand500 bg-colorGrey50 p-5 opacity-95'
             : 'hidden'
-        }  md:flex md:gap-10 `}
+        }  md:flex md:gap-7 `}
       >
-        <li className={liStyle}>
-          <NavLink to="/">Home</NavLink>
+        <li
+          className={liStyle}
+          onMouseEnter={toggleDropdown}
+          onMouseLeave={toggleDropdown}
+        >
+          <NavLink to="/services">Services</NavLink>
+          {isServiceDropdownOpen && <ServicesDropdown />}
         </li>
         <li className={liStyle}>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/blog">Blog</NavLink>
         </li>
         <li className={liStyle}>
-          <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/signup-login">Sign up/Log in</NavLink>
         </li>
-        <li className="hidden md:block">
+        <li className={liStyle}>
+          <NavLink to="/become-a-professional">Become a BCollar</NavLink>
+        </li>
+        <li className={liStyle}>
+          <NavLink to="/contactus">Contact Us</NavLink>
+        </li>
+        <li className={isSmallScreen ? liStyle + ' flex gap-4' : liStyle}>
+          {isSmallScreen && 'Switch Theme'}
           <ThemeToggle />
-        </li>
-        <li className="align-center flex gap-4 p-5 md:hidden">
-          Switch Theme <ThemeToggle />
         </li>
       </ul>
     </div>

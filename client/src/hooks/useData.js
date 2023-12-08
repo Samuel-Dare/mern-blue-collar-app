@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
-export function useBCollarsData(url) {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['bcollar'],
+export function useServiceProvidersData(url) {
+  const {
+    data: { data: { data } = {} } = {},
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['service providers'],
     queryFn: () => fetch(url).then((res) => res.json()),
   });
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, refetch };
 }
 
 export function useMeData(url) {

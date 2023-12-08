@@ -5,6 +5,7 @@ const User = require("../models/usersModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Email = require("../utils/email");
+const ServiceProvider = require("../models/serviceProvidersModel");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
@@ -49,15 +50,34 @@ exports.signup = catchAsync(async (req, res, next) => {
     lastName: req.body.lastName,
     email: req.body.email,
     phone: req.body.phone,
+    role: req.body.role,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
 
   const url = `${req.protocol}://${req.get("host")}/me`;
-  console.log(url);
+  // console.log(url);
   // await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, req, res);
+});
+
+exports.signupAsProfessional = catchAsync(async (req, res, next) => {
+  // if (req.body.role === "professional")
+  //   return next(
+  //     new AppError("You are already registered as a professional", 400)
+  //   );
+  const newUser = await ServiceProvider.create({
+    user: req.body.user,
+    service: req.body.service,
+    location: req.body.location,
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      pro: newUser,
+    },
+  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {

@@ -1,10 +1,17 @@
 import { NavLink } from 'react-router-dom';
+import { useDarkMode } from '../context/DarkModeContext';
 
 function Logo() {
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <div className="text-colorBrand900 md:text-logo mx-auto text-3xl font-extrabold md:mx-0">
-      <NavLink to="/">BlueCollars</NavLink>
-    </div>
+    <NavLink to="/">
+      {isDarkMode ? (
+        <img src="../assets/logoB.png" alt="logo" className="w-[100px]" />
+      ) : (
+        <img src="../assets/logoA.png" alt="logo" className="w-[100px]" />
+      )}
+    </NavLink>
   );
 }
 

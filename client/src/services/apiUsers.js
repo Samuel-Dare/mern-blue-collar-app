@@ -1,6 +1,14 @@
-const BASE_URL = `${import.meta.env.VITE_BASE_URL}/api/v1/users`;
+import { BASE_URL } from '../config/config';
 
-export const getUsers = `${BASE_URL}/bCollars/`;
-export const getMe = `${BASE_URL}/me`;
-export const updateMe = `${BASE_URL}/updateMe`;
-export const logout = `${BASE_URL}/logout`;
+const URL = `${BASE_URL}/api/v1/users`;
+
+export const urlSignup = `${URL}/signup`;
+
+export const urlLogin = `${URL}/login`;
+
+export const urlLogout = `${URL}/logout`;
+
+export const urlGetMe = `${URL}/me`;
+export const urlGetUsers = `${URL}`;
+
+export const urlUpdateMe = `${URL}/updateMe`;

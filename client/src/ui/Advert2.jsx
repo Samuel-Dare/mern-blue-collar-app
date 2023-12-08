@@ -1,7 +1,7 @@
-import AdvertStyle1ReusableComponent from './AdvertStyle1ReusableComponent';
+import AdvertStyle1Component from './AdvertStyle1Component';
 
 function Advert2() {
-  return <AdvertStyle1ReusableComponent />;
+  return <AdvertStyle1Component />;
 }
 
 export default Advert2;

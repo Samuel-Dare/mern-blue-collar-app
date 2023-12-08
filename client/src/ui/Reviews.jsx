@@ -1,4 +1,4 @@
-function ReviewsReusableComponent({ clientName, review, date, city, service }) {
+function ReviewsComponent({ clientName, review, date, city, service }) {
   return (
     <div className="flex items-start justify-center gap-5">
       <img
@@ -24,13 +24,13 @@ function ReviewsReusableComponent({ clientName, review, date, city, service }) {
 function Reviews() {
   return (
     <div className="bg-colorGrey300 p-5 lg:p-10">
-      <h1 className="text-h1 mb-2 md:mb-3">Reviews</h1>
-      <h2 className="text-h2 mb-5 md:mb-10">
+      <h1 className="mb-2 text-h1 md:mb-3">Reviews</h1>
+      <h2 className="mb-5 text-h2 md:mb-10">
         See what some of our users are saying about BCollars
       </h2>
 
       <div className="grid gap-5 md:grid-cols-2 md:gap-10 lg:gap-16">
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"
@@ -39,7 +39,7 @@ function Reviews() {
           service="Plumbing"
         />
 
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"
@@ -48,7 +48,7 @@ function Reviews() {
           service="Plumbing"
         />
 
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"
@@ -57,7 +57,7 @@ function Reviews() {
           service="Plumbing"
         />
 
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"
@@ -66,7 +66,7 @@ function Reviews() {
           service="Plumbing"
         />
 
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"
@@ -75,7 +75,7 @@ function Reviews() {
           service="Plumbing"
         />
 
-        <ReviewsReusableComponent
+        <ReviewsComponent
           clientName="Sam D."
           review="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae at
           ullam assumenda eligendi enim quos, laborum necessitatibus debitis repellat, tempora tenetur natus minima veniam architecto minus quia explicabo aliquam possimus"

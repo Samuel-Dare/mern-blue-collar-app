@@ -9,15 +9,14 @@ import {
 } from 'react-leaflet';
 
 import { useEffect, useState } from 'react';
-// import { useCities } from '../contexts/CitiesContext';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useUrlPosition } from '../hooks/useUrlPosition';
 import Button from './Button';
-import { useBCollarsData } from '../hooks/useData';
-import { getUsers } from '../services/apiUsers';
+import { useServiceProvidersData } from '../hooks/useData';
+import { urlGetUsers } from '../services/apiUsers';
 
 function Map() {
-  const { data: bCollars = [] } = useBCollarsData(getUsers);
+  const { data: bCollars = [] } = useServiceProvidersData(urlGetUsers);
   console.log(bCollars);
 
   const [mapPosition, setMapPosition] = useState([40, 0]);

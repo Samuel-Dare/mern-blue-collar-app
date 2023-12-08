@@ -1,7 +1,7 @@
-import AdvertStyle1ReusableComponent from './AdvertStyle1ReusableComponent';
+import AdvertStyle1Component from './AdvertStyle1Component';
 
 function Advert1() {
-  return <AdvertStyle1ReusableComponent reverseOrder={true} />;
+  return <AdvertStyle1Component reverseOrder={true} />;
 }
 
 export default Advert1;
