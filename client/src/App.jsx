@@ -5,14 +5,14 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
 import AppLayout from './ui/AppLayout';
-import LogIn from './pages/LogIn';
 import Dashboard from './pages/Dashboard';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 import Logout from './pages/Logout';
 import SignupLogin from './pages/SignupLogin';
 import TaskDescriptionForm from './pages/TaskDescriptionForm';
 import ServiceProviderProfileCard from './ui/ServiceProviderProfileCard';
 import AppLayout2 from './ui/AppLayout2';
-import Signup from './pages/Signup';
 import SignupAsServiceProvider from './pages/SignupAsServiceProvider';
 import FindServiceProvider from './pages/FindServiceProvider';
 import { SearchProvider } from './context/SearchContext';
@@ -54,7 +54,7 @@ function App() {
                 path="/become-a-professional"
                 element={<SignupAsServiceProvider />}
               />
-              <Route path="/login" element={<LogIn />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route
                 path="/available-professionals"

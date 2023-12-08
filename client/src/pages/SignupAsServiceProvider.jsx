@@ -6,7 +6,7 @@ import FormInputForSelectElement from '../ui/FormInputForSelectElement';
 import { useOverlay } from '../context/OverlayContext';
 import OverlayContent from '../ui/OverlayContent';
 import SignUp from './Signup';
-import LogIn from './LogIn';
+import LogIn from './Login';
 import { AvailableServices, ServiceProvidersLocations } from '../config/config';
 
 function SignupAsServiceProvider() {
