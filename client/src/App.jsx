@@ -6,15 +6,15 @@ import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
 import AppLayout from './ui/AppLayout';
 import Dashboard from './pages/Dashboard';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
 import SignupLogin from './pages/SignupLogin';
 import TaskDescriptionForm from './pages/TaskDescriptionForm';
 import ServiceProviderProfileCard from './ui/ServiceProviderProfileCard';
 import AppLayout2 from './ui/AppLayout2';
 import SignupAsServiceProvider from './pages/SignupAsServiceProvider';
 import FindServiceProvider from './pages/FindServiceProvider';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
 import { SearchProvider } from './context/SearchContext';
 import { TaskInfoProvider } from './context/TaskInfoContext';
 
