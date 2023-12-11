@@ -13,7 +13,7 @@ import AppLayout2 from './ui/AppLayout2';
 import SignupAsServiceProvider from './pages/SignupAsServiceProvider';
 import FindServiceProvider from './pages/FindServiceProvider';
 import Signup from './pages/Signup';
-import Loginn from './pages/Loginn';
+import Login from './pages/Login';
 import Logout from './pages/Logout';
 import { SearchProvider } from './context/SearchContext';
 import { TaskInfoProvider } from './context/TaskInfoContext';
@@ -54,7 +54,7 @@ function App() {
                 path="/become-a-professional"
                 element={<SignupAsServiceProvider />}
               />
-              <Route path="/login" element={<Loginn />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route
                 path="/available-professionals"

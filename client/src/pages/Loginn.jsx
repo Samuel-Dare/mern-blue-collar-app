@@ -9,7 +9,7 @@ import { useOverlay } from '../context/OverlayContext';
 import { urlSignupAsProfessional } from '../services/apiServiceProviders';
 import { urlLogin, urlUpdateMe } from '../services/apiUsers';
 
-const Loginn = ({ valuesSignupAsProfessional }) => {
+const Login = ({ valuesSignupAsProfessional }) => {
   const { isOverlayVisible } = useOverlay();
   const [values, setValues] = useState({
     email: '',
@@ -154,4 +154,4 @@ const Loginn = ({ valuesSignupAsProfessional }) => {
   );
 };
 
-export default Loginn;
+export default Login;
