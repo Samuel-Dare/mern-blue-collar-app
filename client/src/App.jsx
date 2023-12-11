@@ -12,7 +12,7 @@ import ServiceProviderProfileCard from './ui/ServiceProviderProfileCard';
 import AppLayout2 from './ui/AppLayout2';
 import SignupAsServiceProvider from './pages/SignupAsServiceProvider';
 import FindServiceProvider from './pages/FindServiceProvider';
-import Signup from './pages/Signup';
+import Signupp from './pages/Signupp';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import { SearchProvider } from './context/SearchContext';
@@ -49,7 +49,7 @@ function App() {
               </Route>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/signup-login" element={<SignupLogin />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<Signupp />} />
               <Route
                 path="/become-a-professional"
                 element={<SignupAsServiceProvider />}

@@ -6,7 +6,7 @@ import FormInputForSelectElement from '../ui/FormInputForSelectElement';
 import { useOverlay } from '../context/OverlayContext';
 import OverlayContent from '../ui/OverlayContent';
 import { AvailableServices, ServiceProvidersLocations } from '../config/config';
-import Signup from './Signup';
+import Signupp from './Signupp';
 import Login from './Login';
 
 function SignupAsServiceProvider() {
@@ -102,7 +102,7 @@ function SignupAsServiceProvider() {
 
       <OverlayContent>
         {buttonClicked === 'signup' && (
-          <Signup valuesSignupAsProfessional={values} />
+          <Signupp valuesSignupAsProfessional={values} />
         )}
         {buttonClicked === 'login' && (
           <Login valuesSignupAsProfessional={values} />
