@@ -7,7 +7,8 @@ export default defineConfig(({ command, mode }) => {
   if (mode === 'development') {
     baseUrl = 'http://localhost:7000';
   } else if (mode === 'production') {
-    baseUrl = 'https://mern-blue-collar-app-backend-93yn.onrender.com';
+    baseUrl = 'https://www.bluekollars.com';
+    // baseUrl = 'https://mern-blue-collar-app-backend-93yn.onrender.com';
   }
 
   return {
