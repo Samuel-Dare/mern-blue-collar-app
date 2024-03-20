@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 
-function Button({ children, disabled, to, type, onClick }) {
+function Button({ children, disabled, to, type, onClick, isActive }) {
   const base =
-    'inline-block text-sm rounded-lg bg-colorBrand900 font-semibold uppercase tracking-wide text-colorGrey50 transition-colors duration-300 hover:bg-colorBrand800 focus:bg-colorBrand800 focus:outline-none focus:ring focus:ring-colorBrand800 focus:ring-offset-2 disabled:cursor-not-allowed w-full ';
+    'inline-block text-sm rounded-lg bg-colorBrand2 font-semibold uppercase tracking-wide text-colorGrey50 transition-colors duration-300 hover:bg-colorBrand4 focus:bg-colorBrand4 focus:outline-none focus:ring focus:ring-colorBrand2 focus:ring-offset-1 disabled:cursor-not-allowed w-full ';
 
   const secondaryBase =
     'inline-block text-lg rounded-full font-semibold uppercase tracking-wide transition-colors duration-300 focus:outline-none focus:ring focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-2.5 md:px-6 md:py-3.5 border-2 border-colorGrey400 text-colorGrey-400 hover:bg-colorGrey400 hover:text-colorGrey800 focus:bg-colorGrey400 focus:text-colorGrey800 focus:ring-colorGrey-200';
 
   const pointerBase =
-    'text-colorBrand900 hover:text-colorBrand700 tracking-wide inline-block text-lg font-semibold disabled:cursor-not-allowed focus:outline-none transition-colors duration-300';
+    'text-colorBrand2 hover:text-colorBrand4 tracking-wide inline-block text-lg font-semibold disabled:cursor-not-allowed focus:outline-none transition-colors duration-300';
 
   const styles = {
     primary: base + ' px-4 py-3 md:px-6 md:py-4 md:text-lg md:w-auto',
@@ -17,7 +17,7 @@ function Button({ children, disabled, to, type, onClick }) {
     // round: base + ' px-2.5 py-1 md:px-3.5 md:py-2 text-sm',
 
     small:
-      'px-4 py-2 md:px-5 md:py-2.5 text-sm border-colorBrand900 hover:bg-colorBrand900 hover:text-colorGrey100 md:w-auto rounded-lg ' +
+      'px-4 py-2 md:px-5 md:py-2.5 text-sm border-colorGrey500 hover:bg-colorBrand4 hover:border-colorBrand4 hover:text-colorGrey50 md:w-auto rounded-lg ' +
       secondaryBase,
 
     pointer: pointerBase,
@@ -40,7 +40,11 @@ function Button({ children, disabled, to, type, onClick }) {
 
   if (onClick)
     return (
-      <button onClick={onClick} disabled={disabled} className={styles[type]}>
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className={isActive ? styles.primaryFull : styles[type]}
+      >
         {children}
       </button>
     );

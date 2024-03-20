@@ -83,7 +83,7 @@ function ChangeProfileDetails() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <h1 className="mb-4 text-3xl font-bold">Settings</h1>
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Edit Profile</h2>

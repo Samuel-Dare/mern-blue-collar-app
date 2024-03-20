@@ -38,8 +38,8 @@ const ServiceProviderProfileCard = () => {
   console.log(apiUrl);
 
   useEffect(() => {
-    setApiUrl(urlGetServiceProviders(selectedService));
-  }, [selectedService]);
+    setApiUrl(urlGetServiceProviders(selectedService, sortBy));
+  }, [selectedService, sortBy]);
 
   useEffect(() => {
     refetch();

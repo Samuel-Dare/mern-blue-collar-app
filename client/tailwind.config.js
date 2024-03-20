@@ -4,7 +4,8 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      sans: 'Roboto Mono, monospace',
+      // sans: 'Roboto Mono, monospace',
+      slab: ['Roboto Slab', 'serif'],
     },
 
     colors: {
@@ -37,6 +38,12 @@ module.exports = {
       colorShadowSm: 'var(--shadow-sm)',
       colorShadowMd: 'var(--shadow-md)',
       colorShadowLg: 'var(--shadow-lg)',
+
+      colorBrand1: 'var(--color-brand-1)',
+      colorBrand2: 'var(--color-brand-2)',
+      colorBrand3: 'var(--color-brand-3)',
+      colorBrand4: 'var(--color-brand-4)',
+      colorBrand5: 'var(--color-brand-5)',
 
       colorBrand50: 'var(--color-brand-50)',
       colorBrand100: 'var(--color-brand-100)',

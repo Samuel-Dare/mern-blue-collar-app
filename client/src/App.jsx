@@ -17,6 +17,13 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import { SearchProvider } from './context/SearchContext';
 import { TaskInfoProvider } from './context/TaskInfoContext';
+import ContactUs from './pages/ContactUs';
+import HowItWorks from './pages/HowItWorks';
+import AboutUs from './pages/AboutUs';
+import Bookings from './pages/Dashboard/Bookings';
+import AppLayout3 from './ui/AppLayout3';
+import EditProfile from './ui/EditProfile';
+import Reviews from './pages/Dashboard/Reviews';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +43,9 @@ function App() {
             <Routes>
               <Route element={<AppLayout />}>
                 <Route index element={<Home />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
               </Route>
               <Route element={<AppLayout2 />}>
                 <Route
@@ -47,7 +57,14 @@ function App() {
                   element={<FindServiceProvider />}
                 />
               </Route>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route element={<AppLayout3 />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/bookings" element={<Bookings />} />
+                <Route path="/reviews" element={<Reviews />} />
+                <Route path="/profile" element={<EditProfile />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
+
               <Route path="/signup-login" element={<SignupLogin />} />
               <Route path="/signup" element={<Signup />} />
               <Route
@@ -60,6 +77,7 @@ function App() {
                 path="/available-professionals"
                 element={<ServiceProviderProfileCard />}
               />
+
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </TaskInfoProvider>

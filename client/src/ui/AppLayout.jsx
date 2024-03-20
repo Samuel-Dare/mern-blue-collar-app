@@ -5,12 +5,12 @@ import Footer from './Footer';
 
 export default function AppLayout() {
   return (
-    <div>
+    <>
       <MainNav />
       <div className="mt-[100px]">
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

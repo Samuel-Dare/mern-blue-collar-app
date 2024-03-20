@@ -12,6 +12,9 @@ const TaskInfoProvider = ({ children }) => {
     location: '',
     estimatedTime: '',
     description: '',
+    date: '',
+    time: '',
+    priceRange: '',
   });
 
   const navigate = useNavigate();

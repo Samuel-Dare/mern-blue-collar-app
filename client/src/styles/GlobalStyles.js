@@ -91,6 +91,12 @@ const GlobalStyles = createGlobalStyle`
     --color-brand-800: #293ca7;
     --color-brand-900: #1f309e;
 
+    --color-brand-1: #0E1659;
+    --color-brand-2: #2A4AE4;
+    --color-brand-3: #384BDF;
+    --color-brand-4: #4C63C3;
+    --color-brand-5: #4474B8;
+
     
     --border-radius-tiny: 3px;
     --border-radius-sm: 5px;

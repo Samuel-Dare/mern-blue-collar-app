@@ -7,9 +7,17 @@ function Logo() {
   return (
     <NavLink to="/">
       {isDarkMode ? (
-        <img src="../assets/logoB.png" alt="logo" className="w-[100px]" />
+        <img
+          src="../assets/bk-logo3-removedbg.png"
+          alt="logo"
+          className="w-[100px]"
+        />
       ) : (
-        <img src="../assets/logoA.png" alt="logo" className="w-[100px]" />
+        <img
+          src="../assets/bk-logo1-removedbg.png"
+          alt="logo"
+          className="w-[100px]"
+        />
       )}
     </NavLink>
   );

@@ -22,7 +22,9 @@ export default function DashboardNav() {
   };
 
   return (
-    <nav className="fixed left-0 right-0 top-0 flex items-center justify-between bg-colorGrey400 px-24 text-colorGrey800 shadow-md">
+    <nav
+      className={`fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-colorGrey50 p-7 shadow-md md:p-10 md:pr-28`}
+    >
       <Logo />
 
       {!isSmallScreen && (

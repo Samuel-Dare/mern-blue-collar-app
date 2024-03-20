@@ -6,6 +6,7 @@ const FilterByTime = () => {
     time1: '',
     time2: '',
   });
+  const [activeButton, setActiveButton] = useState(null);
 
   const timeSlots = ['Choose Time'];
   const startTime = 6;
@@ -32,18 +33,22 @@ const FilterByTime = () => {
 
   const handleTimeChange = (e) => {
     setSelectedTime({ ...selectedTime, time1: e.target.value, time2: '' });
+    setActiveButton('chooseTime');
   };
 
   const handleMorning = () => {
     setSelectedTime({ ...selectedTime, time1: '06:00 AM', time2: '12:00 PM' });
+    setActiveButton('morning');
   };
 
   const handleAfternoon = () => {
     setSelectedTime({ ...selectedTime, time1: '12:00 PM', time2: '05:00 PM' });
+    setActiveButton('afternoon');
   };
 
   const handleEvening = () => {
     setSelectedTime({ ...selectedTime, time1: '05:00 PM', time2: '10:00 PM' });
+    setActiveButton('evening');
   };
 
   return (
@@ -57,15 +62,27 @@ const FilterByTime = () => {
         </span>
       </label>
       <div className="grid grid-cols-2 gap-3 ">
-        <Button type="secondary" onClick={handleMorning}>
+        <Button
+          type="secondary"
+          onClick={handleMorning}
+          isActive={activeButton === 'morning'}
+        >
           Morning
           <span className="text-sm">(6am-12pm)</span>
         </Button>
-        <Button type="secondary" onClick={handleAfternoon}>
+        <Button
+          type="secondary"
+          onClick={handleAfternoon}
+          isActive={activeButton === 'afternoon'}
+        >
           Afternoon
           <span className="text-sm">(12pm-5pm)</span>
         </Button>
-        <Button type="secondary" onClick={handleEvening}>
+        <Button
+          type="secondary"
+          onClick={handleEvening}
+          isActive={activeButton === 'evening'}
+        >
           Evening
           <span className="text-sm">(5pm-10pm)</span>
         </Button>
@@ -73,7 +90,7 @@ const FilterByTime = () => {
         <select
           value={selectedTime.time1}
           onChange={handleTimeChange}
-          className="h-16 rounded-full border-2 border-colorGrey400 p-5 text-lg font-semibold uppercase hover:bg-colorGrey200  focus:outline-none "
+          className={`h-16 rounded-full border-2 border-colorGrey400 p-5 text-lg font-semibold uppercase hover:bg-colorGrey400 ${activeButton === 'chooseTime' ? 'inline-block w-full rounded-lg bg-colorBrand2 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-colorGrey50 transition-colors duration-300 hover:bg-colorBrand4 focus:bg-colorBrand4 focus:outline-none focus:ring focus:ring-colorBrand2 focus:ring-offset-1 disabled:cursor-not-allowed md:px-6 md:py-4 md:text-lg' : ''}`}
         >
           {timeSlots.map((time) => (
             <option key={time} value={time}>

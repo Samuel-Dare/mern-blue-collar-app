@@ -74,7 +74,7 @@ function ChangePassword() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <h2 className="text-xl font-semibold">Change Password</h2>
       <form onSubmit={handleSubmit}>
         {/* <label htmlFor="currentPassword" className="text-gray-600 mt-2 block">

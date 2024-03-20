@@ -1,3 +1,5 @@
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export const AvailableServices = [
   'Mounting',
   'Plumbing',
@@ -10,6 +12,7 @@ export const AvailableServices = [
   'Running Errands',
   'Others',
 ];
+
 export const ServiceProvidersLocations = [
   'Lekki, Lagos-Island',
   'Ajah, Lagos-Island',
@@ -18,5 +21,3 @@ export const ServiceProvidersLocations = [
   'VI, Lagos-Island',
   'Lagos-Mainland',
 ];
-
-export const BASE_URL = import.meta.env.VITE_BASE_URL;
