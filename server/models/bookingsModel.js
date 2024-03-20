@@ -11,17 +11,13 @@ const bookingSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Booking must belong to a user"],
   },
-  price: {
-    type: Number,
-    require: [true, "Booking must have a price"],
-  },
   bookingDetails: {
     type: Object,
     require: [true, "Booking must have details"],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
+  price: {
+    type: Number,
+    require: [true, "Booking must have a price"],
   },
   paid: {
     type: Boolean,
@@ -31,6 +27,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "completed", "in-progress", "canceled"],
     default: "pending",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 
