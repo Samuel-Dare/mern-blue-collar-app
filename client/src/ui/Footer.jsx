@@ -1,52 +1,51 @@
 import { FaAngleUp, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { useScrollToTop } from '../hooks/useScrollToTop';
+import { Link } from 'react-router-dom';
 
 function Footer() {
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  const scrollToTop = useScrollToTop();
 
   return (
-    <footer className="mt-10 flex flex-col gap-3 bg-colorBrand800 p-10 text-colorGrey300 md:flex-row md:justify-between md:p-16 lg:p-20">
-      <div>
+    <footer className="relative z-50 mt-10 flex flex-col gap-3 space-y-3 bg-colorBrand800 p-10 text-colorGrey300 md:flex-row md:justify-between md:p-16 lg:p-20">
+      <div className="space-y-4">
         <h3 className="">Follow us on social media</h3>
-        <br />
-        <ul className="flex gap-5">
-          <a href="https://www.facebook.com/probrandhandlers">
+        <ul className="flex gap-7">
+          <Link to="#">
             <FaFacebook />
-          </a>
-          <a href="https://twitter.com/probrandhandler">
+          </Link>
+          <Link to="#">
             <FaTwitter />
-          </a>
-          <a href="https://www.instagram.com/probrandhandler?igsh=MWgxM3VmeTJsOXE4cQ==">
+          </Link>
+          <Link to="#">
             <FaInstagram />
-          </a>
+          </Link>
         </ul>
       </div>
 
-      <div>
-        <h3 className="font-bold">Our Services</h3>
-        <ul>
-          <li>Branding Solutions</li>
-          <li>Marketing Solutions</li>
-        </ul>
-        <br />
-        <h3 className="font-bold">Other Services</h3>
-        <ul>
-          <li>Website Design</li>
-          <li>Content Creation</li>
-          <li>Social Media Management</li>
-          <li>Business Expansion</li>
-        </ul>
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-bold">Our Services</h3>
+          <ul>
+            <li>Branding Solutions</li>
+            <li>Marketing Solutions</li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold">Other Services</h3>
+          <ul>
+            <li>Website Design</li>
+            <li>Content Creation</li>
+            <li>Social Media Management</li>
+            <li>Business Expansion</li>
+          </ul>
+        </div>
       </div>
 
       <div>
         <h3 className="font-bold">Do More</h3>{' '}
         <ul>
-          <li>Become a BCollar</li>
-          <li>Find A BCollar</li> <li>Sign up</li>
+          <li>Become a Blue Kollar</li>
+          <li>Find A Blue Kollar</li> <li>Sign up</li>
           <li>Log in</li>
         </ul>{' '}
       </div>
@@ -62,11 +61,10 @@ function Footer() {
         </ul>
       </div>
 
-      <div
-        className="h-full cursor-pointer rounded-full border-2 border-colorBrand400"
-        onClick={handleScrollToTop}
-      >
-        <FaAngleUp className="text-2xl md:text-5xl" />
+      <div className="absolute right-5 top-5 h-fit cursor-pointer rounded-full border-2 border-colorBrand400 p-2 hover:text-colorGrey0 md:static md:p-4">
+        <Link onClick={scrollToTop}>
+          <FaAngleUp className="text-5xl" />
+        </Link>
       </div>
     </footer>
   );

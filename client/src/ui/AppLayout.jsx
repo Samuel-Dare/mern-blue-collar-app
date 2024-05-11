@@ -7,7 +7,7 @@ export default function AppLayout() {
   return (
     <>
       <MainNav />
-      <div className="mt-[100px]">
+      <div className="mt-[100px] min-h-screen">
         <Outlet />
       </div>
       <Footer />

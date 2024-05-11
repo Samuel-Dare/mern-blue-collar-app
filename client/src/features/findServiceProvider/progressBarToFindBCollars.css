@@ -1,0 +1,26 @@
+/* Style the value of the progress bar */
+progress[value]::-webkit-progress-value {
+  background-image:
+    -webkit-linear-gradient(
+      -45deg,
+      transparent 33%,
+      rgba(0, 0, 0, 0.1) 33%,
+      rgba(0, 0, 0, 0.1) 66%,
+      transparent 66%
+    ),
+    -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)),
+    -webkit-linear-gradient(left, #2a4ae4, #0e1659);
+
+  border-radius: 8px;
+  background-size:
+    35px 20px,
+    100% 100%,
+    100% 100%;
+}
+
+/* Style the progress bar track (the part behind the progress value) */
+progress::-webkit-progress-bar {
+  background-color: #4474b8;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}

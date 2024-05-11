@@ -3,36 +3,52 @@ const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const uniqueValidator = require("mongoose-unique-validator");
 
+const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,20}$/;
+
+// Define the address subdocument schema
+const addressSchema = new mongoose.Schema({
+  street: String,
+  city: String,
+  state: String,
+  postalCode: String,
+});
+
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     trim: true,
     required: [true, "First name is required"],
+    minlength: [3, "First name must be at least 3 characters long"],
+    maxlength: [40, "First name cannot exceed 40 characters"],
   },
   lastName: {
     type: String,
     trim: true,
     required: [true, "Last name is required"],
+    minlength: [3, "Last name must be at least 3 characters long"],
+    maxlength: [40, "Last name cannot exceed 40 characters"],
   },
   email: {
     type: String,
     trim: true,
     lowercase: true,
     required: [true, "Email is required"],
-    // unique: [true, "E-mail already in use"],
-    // validate: [validator.isEmail, "Please provide a valid email"],
+    unique: [true, "User with this email alreay exist"],
+    validate: [validator.isEmail, "Please provide a valid email"],
   },
   phone: {
-    type: String, // Phone numbers are typically stored as strings to handle formatting and international numbers.
+    type: String,
     required: true,
-    // unique: [true, "Phone number already in use"],
-    // validate: {
-    //   validator: (value) => {
-    //     return validator.isMobilePhone(value, "en-NG");
-    //   },
-    //   message: "Please provide a valid phone number",
-    // },
+    unique: [true, "User with this phone number already exists"],
+    validate: {
+      validator: function (value) {
+        return validator.isMobilePhone(value, "en-NG");
+      },
+      message: "Please provide a valid Nigerian phone number",
+    },
   },
+  address: addressSchema,
   photo: {
     type: String,
     trim: true,
@@ -50,6 +66,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required"],
     minLength: [8, "Password must contain a minimum of 8 characters"],
     maxLength: [20, "Password cannot exceed 20 characters"],
+    match: [
+      passwordRegex,
+      "Password should be between 8 and 20 characters, must include at least 1 letter, 1 number, and 1 special character",
+    ],
     select: false,
   },
   passwordConfirm: {
@@ -63,14 +83,20 @@ const userSchema = new mongoose.Schema({
       message: "Passwords do not match",
     },
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
+  emailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
   active: {
     type: Boolean,
     default: true,
     select: false,
   },
+  confirmationToken: String,
+  confirmationTokenExpires: Date,
+  passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -100,7 +126,6 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-  // this points to the current query
   this.find({ active: { $ne: false } });
   next();
 });

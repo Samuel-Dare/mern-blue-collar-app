@@ -10,17 +10,18 @@ export function HeaderTitle({ title }) {
 
 function Header2({ label, title, bannerImage }) {
   return (
-    <div className="h-[500px] md:h-screen">
+    <div className="h-[250px] md:h-[400px]">
       <div
-        className={`flex h-full w-full 
-         ${
-           title === 'Contact Us' ? 'items-start pt-[50px]' : 'items-center'
-         } justify-center md:items-center md:justify-center`}
+        className="h-full w-full"
+        // className={`flex h-full w-full
+        //  ${
+        //    title === 'Contact Us' ? 'items-start pt-[50px]' : 'items-center'
+        //  } justify-center md:items-center md:justify-center`}
         style={{
           backgroundImage: `url(${bannerImage})`,
           backgroundSize: 'cover',
-          backgroundPositionY: `${label === 'services' ? 'top' : 'center'}`,
-          backgroundPositionX: `${label === 'services' ? 'right' : ''}`,
+          // backgroundPositionY: `${label === 'services' ? 'top' : 'center'}`,
+          // backgroundPositionX: `${label === 'services' ? 'right' : ''}`,
         }}
       >
         <Animation type="1">

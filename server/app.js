@@ -10,10 +10,11 @@ const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 
+const viewsRouter = require("./routes/viewsRoute");
 const usersRouter = require("./routes/usersRoute");
 const serviceProvidersRoute = require("./routes/serviceProvidersRoute");
 // const servicesRouter = require("./routes/servicesRoute");
-// const serviceCategoriesRouter = require("./routes/serviceCategoriesRoute");
+const BookingsRouter = require("./routes/bookingsRoute");
 const globalErrorHandler = require("./controllers/errorsController");
 const AppError = require("./utils/appError");
 
@@ -92,12 +93,11 @@ app.use((req, res, next) => {
 app.use(express.static(`${__dirname}/public`));
 
 // Routes
+app.use("/", viewsRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/serviceProviders", serviceProvidersRoute);
 // app.use("/api/v1/services", servicesRouter);
-// app.use("/api/v1/serviceCategories", serviceCategoriesRouter);
-// app.use("/api/v1/serviceProviders", serviceProvidersRouter);
-// app.use("/api/v1/appointments", appointmentsRouter);
+app.use("/api/v1/bookings", BookingsRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

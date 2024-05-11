@@ -2,69 +2,55 @@ import Header2 from '../ui/Header2';
 import { useScreenSize } from '../context/ScreenSize';
 import ArrowIcon from '../utils/ArrowIcon';
 import Animation from '../utils/Animation';
+import { H1, H2 } from '../ui/Headings';
 
 function HowItWorks() {
   const steps = [
     {
-      title: 'Initial Consultation',
+      title: '1. Describe Your Task',
       description:
-        'We conduct a thorough consultation to understand your business, goals, values, and target audience. Then, we gather insights into the kind of industry of your business, competitors, and unique selling points.',
-      icon: '👩‍🏫',
+        'Provide details about your task by filling out our task form. Describe the specific job requirements, including the type of service needed, any special instructions, and your preferred timeline. The more information you provide, the better we can match you with the right Blue Kollar for the job.',
+      icon: '📋',
     },
     {
-      title: 'Brand Audit and Strategy Design',
+      title: '2. Filter Available Blue Kollars',
       description:
-        'We embark on an evaluation of the existing brand elements (logo, color palette, messaging, etc.), if applicable, and develop a clear and compelling brand strategy.',
-      icon: '🎨',
+        'Browse through our pool of available Blue Kollars and filter them based on your preferences. You can narrow down your search by selecting criteria such as time availability, date, average ratings, and the quantity of work completed. This helps you find the perfect fit for your needs and schedule.',
+      icon: '🔍',
     },
     {
-      title: 'Creation of Brand Guidelines and Identity',
+      title: '3. Sign Up/Log In',
       description:
-        'We design or refine the visual elements of the brand, including the logo, color scheme, typography, and imagery, and create comprehensive brand guidelines outlining the proper usage of the logo, color codes, typography, and brand messaging.',
-      icon: '🆔',
+        "If you haven't already done so, sign up for an account or log in to your existing account. This step allows you to access additional features and benefits, such as managing your bookings, viewing past transactions, and receiving updates on special offers and promotions.",
+      icon: '🔐',
     },
     {
-      title: 'Craft Brand Storytelling',
+      title: '4. Make Payment',
       description:
-        'Your brand needs a story, so we develop a narrative that emotionally connects the brand with its target audience and resonates with the values and aspirations of the intended market.',
-      icon: '👻',
-    },
-    {
-      title: 'Implement Marketing Strategies',
-      description:
-        'To better create awareness and put your business in the faces of your audience, we devise marketing strategies that align with the brand strategy and target the right audience.',
-      icon: '💹',
-    },
-    {
-      title: 'Support, Monitor, and Evaluate your Brand Progress',
-      description:
-        'Implement tracking mechanisms to monitor the performance of branding and marketing efforts, and measure the processes and support to ensure the brand remains relevant and adapts to market changes.',
-      icon: '📏',
+        "Once you've selected your preferred Blue Kollar and confirmed your booking, proceed to make payment. You can choose to pay securely through our online payment platform or opt for bank transfer. Rest assured that your payment information is protected, and our payment process is safe and reliable.",
+      icon: '💳',
     },
   ];
 
   const { isSmallScreen } = useScreenSize();
 
   const bannerImage = isSmallScreen
-    ? 'assets/how-it-works-mobile.png'
-    : 'assets/how-it-works.png';
+    ? 'assets/how-it-works-400x250.png'
+    : 'assets/how-it-works-1200x600.png';
 
   return (
     <div>
       <Header2 bannerImage={bannerImage} />
 
-      <div className="container mx-auto mt-8 p-4">
-        <Animation type="1">
-          <h1 className="text-colorBrand2 mb-8 text-center text-3xl font-bold">
-            How It Works
-          </h1>
-        </Animation>
+      <div className="container mx-auto mt-8 space-y-12 p-4">
+        <H1 title="How It Works" center={true} />
+        <H2 title="Connect with a Blue Kollar in 4 Simple Steps:" />
 
         {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"> */}
         <div>
           {steps.map((step, index) => (
             <Animation key={index} type="1">
-              <div className="border-colorBrand2 space-y-3 border p-10">
+              <div className="space-y-3 border border-colorBrand2 p-10">
                 <div className="space-x-5">
                   <span className="text-2xl">{step.icon}</span>
                   <h2 className="mb-2 inline-block text-xl font-bold">

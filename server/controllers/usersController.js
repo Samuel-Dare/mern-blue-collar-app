@@ -1,5 +1,7 @@
 const multer = require("multer");
 const sharp = require("sharp");
+const PhoneNumber = require("libphonenumber-js");
+
 const User = require("../models/usersModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
@@ -75,26 +77,36 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     "firstName",
     "lastName",
     "phone",
-    "role"
+    "address"
   );
   if (req.file) filteredBody.photo = req.file.filename;
 
-  const { firstName, lastName, photo, phone, role } = filteredBody;
+  // const { firstName, lastName, photo, phone, role } = filteredBody;
 
+  const existingUser = await User.findById(req.user.id);
+
+  if (!existingUser) {
+    return next(new AppError("User not found", 400));
+  }
+
+  // console.log(req.body);
+  // console.log(req.user);
   // Check if the user made any changes
-  const formIsNotchanged =
-    firstName === req.user.firstName &&
-    lastName === req.user.lastName &&
-    photo === req.user.file &&
-    phone === req.user.phone &&
-    role === req.user.role;
 
-  if (formIsNotchanged) {
+  const isDataChanged = Object.keys(req.body).some((key) => {
+    return existingUser[key] !== req.body[key];
+  });
+
+  // const formIsNotchanged =
+  //   firstName === req.user.firstName &&
+  //   lastName === req.user.lastName &&
+  //   photo === req.user.file &&
+  //   phone === req.user.phone &&
+  //   role === req.user.role;
+
+  if (!isDataChanged) {
     // If no changes were made, respond with a message
-    return res.status(204).json({
-      status: "success",
-      message: "No changes were made",
-    });
+    return res.status(204).json();
   }
 
   // 3) Update user document
@@ -125,6 +137,30 @@ exports.createUser = (req, res) => {
     status: "error",
     message: "This route is not defined! Please use /signup instead",
   });
+};
+
+// middleware to format and validate Nigerian phone number
+exports.formatAndValidateNigerianPhoneNumber = (req, res, next) => {
+  // Check if the phone field exists in the request body
+  if ("phone" in req.body) {
+    let { phone } = req.body;
+
+    if (phone.startsWith("0")) {
+      req.body.phone = "+234" + phone.slice(1);
+    } else if (!phone.startsWith("+234")) {
+      req.body.phone = "+234" + phone;
+    }
+
+    // Validate if the phone number is a Nigerian number
+    const phoneNumber = new PhoneNumber(req.body.phone, "NG");
+    if (!phoneNumber.isValid()) {
+      return next(
+        new AppError("Please provide a valid Nigerian phone number", 400)
+      );
+    }
+  }
+
+  next();
 };
 
 exports.getUser = factory.getOne(User);

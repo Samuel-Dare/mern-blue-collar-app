@@ -1,6 +1,8 @@
+const mongoose = require("mongoose");
 const crypto = require("crypto");
 const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
+
 const User = require("../models/usersModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
@@ -13,7 +15,7 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, req, res) => {
+const createSendToken = async (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   const cookieOptions = {
@@ -32,53 +34,320 @@ const createSendToken = (user, statusCode, req, res) => {
 
   res.cookie("jwt", token, cookieOptions);
 
-  // Remove password from output
+  // Remove sensitive data from output
   user.password = undefined;
 
-  res.status(statusCode).json({
+  let responseData = {
     status: "success",
     token,
     data: {
       user,
     },
+  };
+
+  // If user is a professional, fetch and include professional data
+  if (user.role === "professional") {
+    const professional = await ServiceProvider.findOne({ user: user._id });
+    responseData.data.professional = professional;
+  }
+
+  res.status(statusCode).json(responseData);
+};
+
+const generateConfirmationData = () => {
+  const confirmationToken = crypto.randomBytes(32).toString("hex");
+  const confirmationTokenExpires = Date.now() + 24 * 60 * 60 * 1000; // Token expires in 24 hours
+  return { confirmationToken, confirmationTokenExpires };
+};
+
+const createUser = async (request, signUpAsPro = false) => {
+  const { confirmationToken, confirmationTokenExpires } =
+    generateConfirmationData();
+
+  const newUser = await User.create({
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    email: request.body.email,
+    phone: request.body.phone,
+    role: signUpAsPro ? "professional" : undefined,
+    password: request.body.password,
+    passwordConfirm: request.body.passwordConfirm,
+    confirmationToken,
+    confirmationTokenExpires,
   });
+
+  return newUser;
+};
+
+const sendConfirmationEmail = async (user, req) => {
+  const { confirmationToken, confirmationTokenExpires } =
+    generateConfirmationData();
+
+  // Update user object
+  user.confirmationToken = confirmationToken;
+  user.confirmationTokenExpires = confirmationTokenExpires;
+  await user.save({ validateBeforeSave: false });
+
+  try {
+    const url = `${req.protocol}://${req.get(
+      "host"
+    )}/api/v1/users/confirmEmail/${confirmationToken}`;
+
+    await new Email(user, url).sendEmailConfirmation();
+  } catch (err) {
+    user.confirmationToken = undefined;
+    user.confirmationTokenExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError("Error sending the email. Please try again later.", 500)
+    );
+  }
+};
+
+const resendConfirmationEmailLink = (request, email) =>
+  `${request.protocol}://${request.get(
+    "host"
+  )}/api/v1/users/resendEmailConfirmation/${email}`;
+
+const signupMessage = (request, email) =>
+  `Please confirm your email address to proceed. In case of any system glitch and you didn't get any email, please click <a href="${resendConfirmationEmailLink(
+    request,
+    email
+  )}">here</a> to get the confirmation link again!`;
+
+const sendWelcomeEmail = async (user, req) => {
+  const url = `${req.protocol}://${req.get("host")}/me`;
+  await new Email(user, url).sendWelcome();
+};
+
+const sendWelcomeProfessionalEmail = async (user, req) => {
+  if (!user.role === "professional") {
+    const url = `${req.protocol}://${req.get("host")}/me`;
+    await new Email(user, url).sendWelcomeProfessional();
+  } else return;
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phone: req.body.phone,
-    role: req.body.role,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
+  const newUser = await createUser(req);
+
+  // Send email confirmation
+  await sendConfirmationEmail(newUser, req);
+
+  // Return response indicating email confirmation is required
+  res.status(201).json({
+    status: "success",
+    message: signupMessage(req, req.body.email),
   });
-
-  const url = `${req.protocol}://${req.get("host")}/me`;
-  // console.log(url);
-  // await new Email(newUser, url).sendWelcome();
-
-  createSendToken(newUser, 201, req, res);
 });
+
+// exports.signupAsProfessional = catchAsync(async (req, res, next) => {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+
+//   try {
+//     let user;
+
+//     // Check if the user is already authenticated
+//     if (req.user) {
+//       // If user is logged in, use existing user details
+//       user = req.user;
+//     } else {
+//       // If user is not logged in, create a new user account
+//       user = await createUser(req, true);
+
+//       // Send email confirmation
+//       await sendConfirmationEmail(user, req);
+//     }
+
+//     // Create a new professional record with user details
+//     const newProfessional = await ServiceProvider.create(
+//       {
+//         user: user._id,
+//         services: req.body.services,
+//         location: req.body.location,
+//       },
+//       { session }
+//     );
+
+//     // Commit the transaction
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     if (req.user) {
+//       await sendWelcomeProfessionalEmail(req.user, req);
+
+//       res.status(201).json({
+//         status: "success",
+//         data: {
+//           user: req.user,
+//           professional: newProfessional,
+//         },
+//       });
+//     }
+
+//     // Send response to client
+//     res.status(201).json({
+//       status: "success",
+//       message: signupMessage(req, user.email),
+//     });
+//   } catch (error) {
+//     // If an error occurs, abort the transaction
+//     await session.abortTransaction();
+//     session.endSession();
+
+//     // Handle the error
+//     return next(error);
+//   }
+// });
 
 exports.signupAsProfessional = catchAsync(async (req, res, next) => {
-  // if (req.body.role === "professional")
-  //   return next(
-  //     new AppError("You are already registered as a professional", 400)
-  //   );
-  const newUser = await ServiceProvider.create({
-    user: req.body.user,
-    service: req.body.service,
-    location: req.body.location,
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  console.log("user", req.user);
+
+  try {
+    let user;
+
+    // Check if the user is already authenticated
+    if (req.user) {
+      // If user is logged in, use existing user details
+      user = { ...user.toObject(), role: "professional" };
+      await user.save({ validateBeforeSave: false });
+    } else {
+      // If user is not logged in, create a new user account
+      user = await createUser(req, true);
+
+      // Send email confirmation
+      await sendConfirmationEmail(user, req);
+    }
+
+    // Perform explicit validation for user inputs
+    if (
+      !req.body.location ||
+      !req.body.services ||
+      req.body.services.length === 0 ||
+      req.body.services.length > 3
+    ) {
+      return next(new AppError("Invalid Professional input data.", 400));
+    }
+    // Prepare data for creating professional record
+    const professionalData = {
+      user: user._id,
+      services: req.body.services,
+      location: req.body.location,
+    };
+
+    // Create a new professional record with user details
+    const newProfessional = await ServiceProvider.create(
+      [professionalData], // Pass an array of documents
+      { session }
+    );
+
+    if (!newProfessional || newProfessional.length === 0) {
+      throw new Error("Failed to create professional record.");
+    }
+
+    if (req.user) {
+      await sendWelcomeProfessionalEmail(req.user, req);
+
+      res.status(201).json({
+        status: "success",
+        data: {
+          user: req.user,
+          professional: newProfessional[0],
+        },
+      });
+    } else {
+      // Send response to client
+      res.status(201).json({
+        status: "success",
+        message: signupMessage(req, user.email),
+      });
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+  } catch (error) {
+    // If an error occurs, abort the transaction
+    await session.abortTransaction();
+    session.endSession();
+
+    // Handle the error
+    return next(error);
+  }
+});
+
+exports.confirmEmail = catchAsync(async (req, res, next) => {
+  const { confirmationToken } = req.params;
+
+  // Find user by confirmation token
+  const user = await User.findOne({
+    confirmationToken: confirmationToken,
+    confirmationTokenExpires: { $gt: Date.now() },
   });
+
+  if (!user) {
+    return next(new AppError("Invalid or expired confirmation token", 400));
+  }
+
+  // Update user's emailConfirmed status
+  user.emailConfirmed = true;
+  user.confirmationToken = undefined;
+  user.confirmationTokenExpires = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  try {
+    // Send email
+    sendWelcomeEmail(user, req);
+    sendWelcomeProfessionalEmail(user, req);
+
+    // Respond with success message
+    res.status(200).json({
+      status: "success",
+      message: "Email confirmed successfully. You can now log in.",
+    });
+  } catch (err) {
+    user.emailConfirmed = false;
+    user.confirmationToken = confirmationToken;
+    user.confirmationTokenExpires = Date.now();
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError("Error sending the email. Please try again later.", 500)
+    );
+  }
+});
+
+exports.resendEmailConfirmation = catchAsync(async (req, res, next) => {
+  const { email } = req.params;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return next(new AppError("User not found", 404));
+  }
+
+  // Resend confirmation email
+  await sendConfirmationEmail(user, req);
+
+  // Return success response
   res.status(200).json({
     status: "success",
-    data: {
-      pro: newUser,
-    },
+    message: "Confirmation email has been resent.",
   });
 });
+
+// Implement cleanup mechanism to remove expired confirmation tokens
+const removeExpiredTokens = async () => {
+  await User.deleteMany({
+    confirmationTokenExpires: { $lt: Date.now() },
+  });
+};
+
+// Scheduled task to remove expired tokens (e.g., once a day)
+setInterval(removeExpiredTokens, 24 * 60 * 60 * 1000);
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
@@ -87,6 +356,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
   }
+
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select("+password");
 
@@ -94,7 +364,20 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  // 3) If everything ok, send token to client
+  // If email is not confirmed, provide a message with a link to resend the confirmation email
+  if (!user.emailConfirmed) {
+    const message = `Your email is not yet confirmed. Please click <a href="${resendConfirmationEmailLink(
+      req,
+      email
+    )}">here</a> to get the confirmation link again!`;
+
+    return res.status(401).json({
+      status: "error",
+      message,
+    });
+  }
+
+  // 4) If everything ok, send token to client
   createSendToken(user, 200, req, res);
 });
 
@@ -213,7 +496,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   try {
     const resetURL = `${req.protocol}://${req.get(
       "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    )}/api/v1/users/reset-password/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -226,7 +509,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     return next(
-      new AppError("There was an error sending the email. Try again later!"),
+      new AppError("Error sending the email. Please try again later"),
       500
     );
   }

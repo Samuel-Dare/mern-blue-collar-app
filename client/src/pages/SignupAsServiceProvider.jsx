@@ -1,113 +1,166 @@
-import { useState } from 'react';
-import Axios from 'axios';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 import Button from '../ui/Button';
-import FormInputForSelectElement from '../ui/FormInputForSelectElement';
 import { useOverlay } from '../context/OverlayContext';
 import OverlayContent from '../ui/OverlayContent';
-import { AvailableServices, ServiceProvidersLocations } from '../config/config';
 import Signup from './Signup';
 import Login from './Login';
+import { useUser } from '../features/authentication/useUser';
+import ReusableDropdownInput from '../ui/ReusableDropDownInput';
+import ReusableDropdownAndMultipleSelect from '../ui/ReusableDropdownAndMultipleSelect';
+import { H1, H3 } from '../ui/Headings';
+import useAvailableServicesAndLocation from '../hooks/useAvailableServicesAndLocations';
 
 function SignupAsServiceProvider() {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const url = 'api/v1/users/signupAsProfessional';
-
+  const { isAuthenticated } = useUser();
   const { handleCloseOverlay } = useOverlay();
   const [buttonClicked, setButtonClicked] = useState(null);
-  const [values, setValues] = useState({
-    service: 'Plumbing',
-    location: 'Lagos Island',
-  });
+  const { availableServices, availableLocations } =
+    useAvailableServicesAndLocation();
+  const [services, setServices] = useState([]);
+  const [location, setLocation] = useState('');
 
-  const inputOptions = [
-    {
-      id: 11,
-      name: 'service',
-      type: 'text',
-      label: 'Choose your service',
-      options: AvailableServices,
-      required: true,
-    },
-    {
-      id: 12,
-      name: 'location',
-      type: 'text',
-      label: 'Select your area',
-      options: ServiceProvidersLocations,
-      required: true,
-    },
-  ];
-
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleProfessionalDetailsInitialState = () => {
+    setServices([]);
+    setLocation('');
   };
 
-  console.log(values);
+  const handleChangeSelectedServices = (selectedServices) => {
+    setServices(selectedServices);
+  };
+
+  const handleChangeSelectedLocation = (selectedLocation) => {
+    setLocation(selectedLocation);
+  };
+
+  const handleButtonAction = (e, action) => {
+    e.preventDefault();
+    if (services.length === 0) {
+      toast.error('Please select at least one service');
+      return;
+    }
+    if (!location) {
+      toast.error('Please choose your location');
+      return;
+    }
+    setButtonClicked(action);
+    handleCloseOverlay();
+  };
 
   const handleButtonSignup = (e) => {
-    e.preventDefault();
-
-    setButtonClicked('signup');
-    handleCloseOverlay();
+    handleButtonAction(e, 'signup');
   };
 
   const handleButtonLogin = (e) => {
-    e.preventDefault();
-
-    setButtonClicked('login');
-    handleCloseOverlay();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    handleCloseOverlay();
-    try {
-      await Axios.post(`${BASE_URL}/${url}`, {
-        service: values.service,
-        location: values.location,
-      }).then((data) => console.log(data));
-      alert("You've successfully signed up");
-    } catch (err) {
-      console.log(err);
-    }
+    handleButtonAction(e, 'login');
   };
 
   return (
     <>
-      <div className="mt-10 bg-colorGrey100 p-10 md:mx-auto md:w-[500px] md:p-16">
+      <div className="mt-10 rounded-2xl bg-colorGrey100 p-10 md:mx-auto md:w-[500px] md:p-16">
         <form>
-          <h1 className="pb-2 text-h1">Earn money with ease</h1>
-
-          {inputOptions.map((inputOption) => (
-            <FormInputForSelectElement
-              key={inputOption.id}
-              onChange={handleChange}
-              {...inputOption}
+          <H1 title="Earn money with Ease" center={true} />
+          <div>
+            <H3 title="Services" />
+            <ReusableDropdownAndMultipleSelect
+              label="Select the services you offer..."
+              options={availableServices}
+              selectedServices={services}
+              onChange={handleChangeSelectedServices}
             />
-          ))}
+          </div>
+          <div className="my-5">
+            <H3 title="Location" />
+            <ReusableDropdownInput
+              label="Choose your location..."
+              options={availableLocations}
+              value={location}
+              onChange={handleChangeSelectedLocation}
+              required={true}
+            />
+          </div>
 
-          <Button onClick={handleButtonSignup} type="primaryFull">
-            Get Started
-          </Button>
+          <div className="mt-7">
+            {isAuthenticated ? (
+              <Button onClick={handleButtonLogin} type="primaryFull">
+                Log in again to comfirm your registration
+              </Button>
+            ) : (
+              <>
+                <Button onClick={handleButtonSignup} type="primaryFull">
+                  Get Started
+                </Button>
 
-          <div className="mt-10 text-center">
-            <span>Already have an account? </span>
-            <Button onClick={handleButtonLogin} type="pointer">
-              Log in
-            </Button>
+                <div className="mt-10 text-center">
+                  <span>If you already have a user account, </span>
+                  <Button onClick={handleButtonLogin} type="pointer">
+                    please LOGIN here to comfirm your registration
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </form>
       </div>
 
       <OverlayContent>
         {buttonClicked === 'signup' && (
+          <Signup
+            professionalDetails={{ services, location }}
+            onProfessionalInitialState={handleProfessionalDetailsInitialState}
+            // services={services}
+            // setServices={setServices}
+            // location={location}
+            // setLocation={setLocation}
+          />
+        )}
+        {buttonClicked === 'login' && (
+          <Login
+            professionalDetails={{ services, location }}
+            onProfessionalInitialState={handleProfessionalDetailsInitialState}
+            // services={services}
+            // setServices={setServices}
+            // location={location}
+            // setLocation={setLocation}
+          />
+        )}
+      </OverlayContent>
+
+      {/* {isAuthenticated && buttonClicked === 'login' ? (
+        <OverlayContent>
+          {' '}
+          <Login
+            professionalDetails={{ selectedServices, selectedLocation }}
+          />{' '}
+        </OverlayContent>
+      ) : (
+        <>
+          <OverlayContent>
+            {buttonClicked === 'signup' && (
+              <Signup
+                professionalDetails={{ selectedServices, selectedLocation }}
+              />
+            )}
+          </OverlayContent>
+          <OverlayContent>
+            {buttonClicked === 'login' && (
+              <Login
+                professionalDetails={{ selectedServices, selectedLocation }}
+              />
+            )}
+          </OverlayContent>
+        </>
+      )} */}
+
+      {/* <OverlayContent>
+        {buttonClicked === 'signup' && (
           <Signup valuesSignupAsProfessional={values} />
         )}
         {buttonClicked === 'login' && (
           <Login valuesSignupAsProfessional={values} />
         )}
-      </OverlayContent>
+      </OverlayContent> */}
     </>
   );
 }

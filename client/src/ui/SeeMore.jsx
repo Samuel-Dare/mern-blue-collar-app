@@ -17,6 +17,11 @@ function SeeMore({ key, children, type = 'pointer' }) {
       )}
 
       {more && children}
+      {more && (
+        <Button type={type} onClick={handleSeeMore}>
+          See Less
+        </Button>
+      )}
     </>
   );
 }

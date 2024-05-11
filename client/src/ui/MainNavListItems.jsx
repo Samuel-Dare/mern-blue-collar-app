@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
-import ServicesDropdown from './ServicesDropdown';
+import ServicesDropdown from '../features/home/ServicesDropdown';
 import { useScreenSize } from '../context/ScreenSize';
 
 const liStyle =
-  'border-colorBrand500 border-b p-5 text-2xl text-colorGrey900 md:p-0 md:border-none hover:text-colorBrand500 transition-transform duration-300 ease-in-out transform hover:translate-y-1';
+  'border-colorBrand500 border-b p-5 text-2xl text-colorGrey900 md:p-0 md:border-none hover:text-colorBrand500 transition-transform duration-300 ease-in-out transform hover:translate-y-1 tracking-tighter';
 
 const activeLinkStyle =
   'bg-colorBrand2 inline-block w-full p-4 text-colorGrey50';
@@ -16,7 +16,13 @@ function NavListItems() {
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const { isSmallScreen } = useScreenSize();
 
+  const toggleDropdownWhenServiceIsClicked = () => {
+    if (!isSmallScreen) return;
+    setIsServiceDropdownOpen(!isServiceDropdownOpen);
+  };
+
   const toggleDropdown = () => {
+    if (isSmallScreen) return;
     setIsServiceDropdownOpen(!isServiceDropdownOpen);
   };
 
@@ -80,15 +86,12 @@ function NavListItems() {
         </li>
         <span
           className="text-left"
+          onClick={toggleDropdownWhenServiceIsClicked}
           onMouseEnter={toggleDropdown}
           onMouseLeave={toggleDropdown}
         >
           <li className={`${liStyle} md:mb-5`}>
-            <NavLink
-              to="/services"
-              onClick={closeMobileMenu}
-              className={({ isActive }) => (isActive ? activeLinkStyle : '')}
-            >
+            <NavLink to="#" onClick={!isSmallScreen && closeMobileMenu}>
               Services
             </NavLink>
           </li>
@@ -118,7 +121,7 @@ function NavListItems() {
             to="/become-a-professional"
             className={({ isActive }) => (isActive ? activeLinkStyle : '')}
           >
-            Become a BKollar
+            Become a Blue Kollar
           </NavLink>
         </li>
         <li className={liStyle}>
@@ -132,9 +135,9 @@ function NavListItems() {
         </li>
         <li className={liStyle}>
           <NavLink
-            to="/blog"
+            to="#"
             onClick={closeMobileMenu}
-            className={({ isActive }) => (isActive ? activeLinkStyle : '')}
+            // className={({ isActive }) => (isActive ? activeLinkStyle : '')}
           >
             Blog
           </NavLink>

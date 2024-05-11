@@ -13,8 +13,8 @@ const TaskInfoProvider = ({ children }) => {
     estimatedTime: '',
     description: '',
     date: '',
-    time: '',
-    priceRange: '',
+    time: {},
+    priceRange: 'any',
   });
 
   const navigate = useNavigate();

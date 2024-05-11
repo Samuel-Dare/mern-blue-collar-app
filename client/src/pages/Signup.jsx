@@ -1,23 +1,28 @@
 import { useState } from 'react';
-import Axios from 'axios';
-import { Navigate } from 'react-router-dom';
 
-import FormInput from '../ui/FormInput';
 import Button from '../ui/Button';
 import { useOverlay } from '../context/OverlayContext';
-import { urlSignup } from '../services/apiUsers';
-import { urlSignupAsProfessional } from '../services/apiServiceProviders';
+import { useSignup } from '../features/authentication/useSignup';
+import { useSignupAsProfessional } from '../features/authentication/useSignupAsProfessional';
+import ReusableInput from '../ui/ReusableInput';
+import { H1 } from '../ui/Headings';
+import Spinner from '../ui/Spinner';
 
-const Signup = ({ valuesSignupAsProfessional }) => {
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  password: '',
+  confirmPassword: '',
+};
+const Signup = ({ professionalDetails, onProfessionalInitialState }) => {
+  const [values, setValues] = useState(initialState);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const { signup, isSigningupUser } = useSignup();
+  const { signupAsProfessional, isSigningupProfessional } =
+    useSignupAsProfessional();
   const { isOverlayVisible } = useOverlay();
-  const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-  });
 
   const inputs = [
     {
@@ -26,7 +31,7 @@ const Signup = ({ valuesSignupAsProfessional }) => {
       placeholder: 'First Name',
       type: 'text',
       label: 'First Name',
-      errorMessage: 'Field should be between 3 and 40 characters',
+      errorMessage: 'First name must be between 3 and 40 characters long',
       required: true,
       pattern: "^[A-Za-z0-9 ,.'\\-]{3,40}$",
     },
@@ -36,7 +41,7 @@ const Signup = ({ valuesSignupAsProfessional }) => {
       placeholder: 'Last Name',
       type: 'text',
       label: 'Last Name',
-      errorMessage: 'Field should be between 3 and 40 characters',
+      errorMessage: 'Last name must be between 3 and 40 characters long',
       required: true,
       pattern: "^[A-Za-z0-9 ,.'\\-]{3,40}$",
     },
@@ -65,7 +70,7 @@ const Signup = ({ valuesSignupAsProfessional }) => {
       type: 'password',
       label: 'Password',
       errorMessage:
-        'Password should be between 8-20 characters, must include at least 1 letter, 1 number, and 1 special character',
+        'Password should be between 8 and 20 characters, must include at least 1 letter, 1 number, and 1 special character',
       required: true,
       pattern:
         '^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,20}$',
@@ -82,89 +87,173 @@ const Signup = ({ valuesSignupAsProfessional }) => {
     },
   ];
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
-  const handleSubmit = async (e) => {
+  const handleIsFormValid = () => {
+    // Check if all required fields are filled
+    const allRequiredFieldsFilled = inputs.every(
+      (input) => !input.required || values[input.name],
+    );
+    setIsFormValid(allRequiredFieldsFilled);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !values.firstName ||
+      !values.lastName ||
+      !values.phone ||
+      !values.email ||
+      !values.password ||
+      !values.confirmPassword
+    )
+      return;
 
-    let valuesSignup = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone,
-      password: values.password,
-      passwordConfirm: values.confirmPassword,
-    };
-
-    if (valuesSignupAsProfessional && isOverlayVisible) {
-      valuesSignup = { ...valuesSignup, role: 'professional' };
+    if (professionalDetails && isOverlayVisible) {
+      signupAsProfessional(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phone: values.phone,
+          password: values.password,
+          passwordConfirm: values.confirmPassword,
+          // Professional Details
+          services: professionalDetails.services,
+          location: professionalDetails.location,
+        },
+        {
+          onSuccess: () => {
+            setValues(initialState);
+            onProfessionalInitialState();
+          },
+        },
+      );
+    } else {
+      signup(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phone: values.phone,
+          password: values.password,
+          passwordConfirm: values.confirmPassword,
+        },
+        {
+          onSuccess: () => {
+            setValues(initialState);
+          },
+        },
+      );
     }
 
-    const signupRequest = async () => {
-      try {
-        const response = await Axios.post(urlSignup, valuesSignup);
-        const data = response.data;
-        console.log(data);
-        return data;
-      } catch (err) {
-        console.error('Error in the signup request:', err);
-      }
-    };
+    // let valuesSignup = {
+    //   firstName: values.firstName,
+    //   lastName: values.lastName,
+    //   email: values.email,
+    //   phone: values.phone,
+    //   password: values.password,
+    //   passwordConfirm: values.confirmPassword,
+    // };
 
-    const signupAsProfessionalRequest = async (userId) => {
-      try {
-        const response = await Axios.post(urlSignupAsProfessional, {
-          ...valuesSignupAsProfessional,
-          user: userId,
-        });
-        const data = response.data;
-        console.log(data);
-        return data;
-      } catch (err) {
-        console.error('Error in the signupAsProfessional request:', err);
-      }
-    };
+    // if (professionalDetails && isOverlayVisible) {
+    //   valuesSignup = { ...valuesSignup, role: 'professional' };
+    // }
 
-    try {
-      if (valuesSignupAsProfessional && isOverlayVisible) {
-        const data = await signupRequest();
-        if (data.status === 'success') {
-          await signupAsProfessionalRequest(data.data.user._id);
-        }
-      } else {
-        const data = await signupRequest();
-        if (data.status === 'success') {
-          alert("You've successfully signed up");
-          setGoToLogin(true);
-        }
-      }
-    } catch (err) {
-      console.log('💣ERROR', err);
-    }
+    // const signupRequest = async () => {
+    //   try {
+    //     const response = await Axios.post(urlSignup, valuesSignup);
+    //     const data = response.data;
+    //     console.log(data);
+    //     return data;
+    //   } catch (err) {
+    //     console.error('Error in the signup request:', err);
+    //   }
+    // };
+
+    // const signupAsProfessionalRequest = async (userId) => {
+    //   try {
+    //     const response = await Axios.post(urlSignupAsProfessional, {
+    //       ...professionalDetails,
+    //       user: userId,
+    //     });
+    //     const data = response.data;
+    //     console.log(data);
+    //     return data;
+    //   } catch (err) {
+    //     console.error('Error in the signupAsProfessional request:', err);
+    //   }
+    // };
+
+    //   try {
+    //     if (professionalDetails && isOverlayVisible) {
+    //       const data = await signupRequest();
+    //       if (data.status === 'success') {
+    //         await signupAsProfessionalRequest(data.data.user._id);
+    //       }
+    //     } else {
+    //       const data = await signupRequest();
+    //       if (data.status === 'success') {
+    //         alert("You've successfully signed up");
+    //         setGoToLogin(true);
+    //       }
+    //     }
+    //   } catch (err) {
+    //     console.log('💣ERROR', err);
+    //   }
+    // };
+
+    // const [goToLogin, setGoToLogin] = useState(false);
+    // if (goToLogin) {
+    //   return <Navigate to="/login" />;
   };
 
-  const [goToLogin, setGoToLogin] = useState(false);
-  if (goToLogin) {
-    return <Navigate to="/login" />;
-  }
+  if (isSigningupUser || isSigningupProfessional) return <Spinner />;
 
   return (
-    <div className="mt-10 bg-colorGrey100 p-10 md:mx-auto md:w-[500px] md:p-16">
-      <form onSubmit={handleSubmit}>
-        <h1 className="pb-2 text-h1">Register</h1>
-        {inputs.map((input) => (
-          <FormInput key={input.id} onChange={handleChange} {...input} />
-        ))}
+    <div className="flex items-center bg-colorBrand1">
+      <div>
+        <img src="assets/welcome-600x400.png" style={{}} alt="" />
+      </div>
+      <div className="mt-10 bg-colorGrey100 p-10 md:mx-auto md:w-[500px] md:rounded-2xl md:p-16">
+        {/* <h1 className="pb-2 text-h1">Register</h1> */}
+        <H1 title="Register" />
+        <form>
+          {inputs.map((input) => (
+            <ReusableInput
+              key={input.id}
+              name={input.name}
+              label={input.label}
+              type={input.type}
+              value={values[input.name]}
+              required={input.required}
+              pattern={input.pattern}
+              errorMessage={input.errorMessage}
+              onChange={handleChange}
+              onFormValid={handleIsFormValid}
+            />
+          ))}
+          {/* {inputs.map((input) => (
+            <FormInput key={input.id} onChange={handleChange} {...input} />
+          ))} */}
+        </form>
 
-        <Button type="primaryFull">
-          {valuesSignupAsProfessional && isOverlayVisible
-            ? 'Become A BCollar'
+        <Button
+          type="primaryFull"
+          onClick={handleSubmit}
+          disabled={!isFormValid || isSigningupUser || isSigningupProfessional}
+        >
+          {professionalDetails && isOverlayVisible
+            ? 'Become A Blue Kollar'
             : 'Sign Up'}
         </Button>
 
-        {!valuesSignupAsProfessional && !isOverlayVisible && (
+        {!professionalDetails && !isOverlayVisible && (
           <div className="mt-10 text-center">
             <span>Already have an account? </span>
             <Button to="/login" type="pointer">
@@ -172,7 +261,7 @@ const Signup = ({ valuesSignupAsProfessional }) => {
             </Button>
           </div>
         )}
-      </form>
+      </div>
     </div>
   );
 };

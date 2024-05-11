@@ -1,13 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { DashboardSidebarProvider } from '../context/DashboardSidebarContext';
-import DashboardNav from './DashboardNav';
-import DashboardSidebar from './DashboardSidebar';
-import DashboardFooter from './DashboardFooter';
+import DashboardNav from '../features/dashboard/DashboardNav';
+import DashboardSidebar from '../features/dashboard/DashboardSidebar';
+import DashboardFooter from '../features/dashboard/DashboardFooter';
 
 export default function AppLayout3() {
   return (
-    <DashboardSidebarProvider>
+    <>
       <DashboardNav />
       <div className="mt-[100px]">
         <DashboardSidebar />
@@ -16,6 +15,6 @@ export default function AppLayout3() {
         </div>
       </div>
       <DashboardFooter />
-    </DashboardSidebarProvider>
+    </>
   );
 }

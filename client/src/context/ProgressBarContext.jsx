@@ -6,20 +6,13 @@ const ProgressBarContext = createContext();
 const ProgressBarProvider = ({ children }) => {
   const [currentStage, setCurrentStage] = useState(0);
 
-  const handleNext = () => {
-    if (currentStage < 4) {
-      setCurrentStage(currentStage + 1);
-    }
-  };
-  const handleBack = () => {
-    if (currentStage > 0) {
-      setCurrentStage(currentStage - 1);
-    }
+  const handleProgressBarStage = (stageNo) => {
+    if (currentStage < 5) setCurrentStage(stageNo);
   };
 
   return (
     <ProgressBarContext.Provider
-      value={{ currentStage, handleNext, handleBack }}
+      value={{ currentStage, handleProgressBarStage }}
     >
       {children}
     </ProgressBarContext.Provider>

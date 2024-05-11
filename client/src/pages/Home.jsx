@@ -1,12 +1,12 @@
 import React from 'react';
-import OnDemandServices from '../ui/OnDemandServices';
+import OnDemandServices from '../features/home/OnDemandServices';
 import Header from '../ui/Header';
-import HighRatedServiceProvidersProfileReview from '../ui/HighRatedServiceProvidersProfileReview';
-import Reviews from '../ui/Reviews';
-import ReadyToGetStarted from '../ui/ReadyToGetStarted';
-import WhatWeDo from '../ui/WhatWeDo';
-import Advert1 from '../ui/Advert1';
-import Advert2 from '../ui/Advert2';
+import HighRatedServiceProvidersProfileReview from '../features/findServiceProvider/HighRatedServiceProvidersProfileReview';
+import Reviews from '../features/home/Reviews';
+import ReadyToGetStarted from '../features/home/ReadyToGetStarted';
+import WhatWeDo from '../features/home/WhyChooseUs';
+import Advert1 from '../features/home/Advert1';
+import Advert2 from '../features/home/Advert2';
 
 export default function Home() {
   return (

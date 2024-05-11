@@ -1,23 +1,42 @@
 const mongoose = require("mongoose");
-const slug = require("slugify");
+const fs = require("fs");
+const slugify = require("slugify");
+
+const servicesJson = fs.readFileSync(
+  `${__dirname}/../public/config/availableServices.json`,
+  "utf-8"
+);
+const locationsJson = fs.readFileSync(
+  `${__dirname}/../public/config/availableLocations.json`,
+  "utf-8"
+);
+const availableServices = JSON.parse(servicesJson);
+const availableLocations = JSON.parse(locationsJson);
 
 const serviceProviderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Service Provider must be a user"],
+    required: [true, "Service Provider must have a userId"],
   },
-  service: {
-    type: String,
-    required: [true, "Service is required"],
+  services: {
+    type: [String],
+    enum: availableServices,
+    required: [true, "At least one service is required"],
+    validate: {
+      validator: function (arr) {
+        return arr.length > 0 && arr.length <= 3; // Change 5 to your desired maximum number of services
+      },
+      message: "You must choose at least one service and at most 3 services",
+    },
   },
-  serviceCategory: String,
   location: {
     type: String,
-    required: [true, "Location is required"],
+    enum: availableLocations,
+    required: [true, "Service Provider must have a location"],
   },
   price: {
-    type: Number,
+    type: Array,
   },
   ratingsQuantity: {
     type: Number,
@@ -32,10 +51,10 @@ const serviceProviderSchema = new mongoose.Schema({
   },
   about: {
     type: String,
-    maxlength: 500,
+    maxlength: [500, "About cannot exceed 500 characters"],
   },
   availability: Array, // E.g., ["Monday", "Tuesday"]
-  slug: String,
+  slug: Number,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -52,7 +71,10 @@ serviceProviderSchema.index({
 });
 
 serviceProviderSchema.pre("save", function (next) {
-  this.slug = slugify(this.service, { lower: true });
+  // Convert ObjectId to string
+  const userIdString = this.user.toString();
+  // Generate slug from the user ID
+  this.slug = slugify(userIdString, { lower: true });
   next();
 });
 

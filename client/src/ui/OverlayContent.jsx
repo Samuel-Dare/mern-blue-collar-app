@@ -1,10 +1,10 @@
 // import { useState } from 'react';
 // import Axios from 'axios';
 
+// import { BASE_URL } from '../config/config';
 // import Button from './Button';
 // import { useOverlay } from '../context/OverlayContext';
 
-// const BASE_URL = import.meta.env.VITE_BASE_URL;
 // const urlSignup = 'api/v1/users/signup';
 // const urlSignupAsProfessional = 'api/v1/users/signupAsProfessional';
 
@@ -58,7 +58,7 @@
 //               </Button>
 //             </div>
 //             <p className="text-lg">{children}</p>
-//             <Button type="primaryFull">Become A BCollar</Button>
+//             <Button type="primaryFull">Become A Blue Kollar</Button>
 //           </div>
 //           <div className="fixed left-0 top-0 h-full w-full bg-colorGrey100 opacity-80"></div>
 //         </div>
@@ -69,11 +69,17 @@
 
 // export default OverlayContent;
 
+import PropTypes from 'prop-types';
 import Button from './Button';
 import { useOverlay } from '../context/OverlayContext';
 
-function OverlayContent({ children, values, source }) {
+function OverlayContent({ children }) {
   const { isOverlayVisible, handleCloseOverlay } = useOverlay();
+
+  if (!children) {
+    console.error('OverlayContent component must have children.');
+    return null;
+  }
 
   return (
     <>
@@ -94,4 +100,37 @@ function OverlayContent({ children, values, source }) {
   );
 }
 
+OverlayContent.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export default OverlayContent;
+
+// import Button from './Button';
+// import { useOverlay } from '../context/OverlayContext';
+
+// function OverlayContent({ children, values, source }) {
+//   const { isOverlayVisible, handleCloseOverlay } = useOverlay();
+
+//   if (!children) return;
+
+//   return (
+//     <>
+//       {isOverlayVisible && (
+//         <div className="fixed left-0 top-0 z-10 flex h-full w-full justify-center overflow-y-auto p-5">
+//           <div className="relative z-20 h-fit w-full bg-colorGrey200 p-10 md:w-auto">
+//             <div className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border-2 border-colorBrand200 bg-colorBrand200">
+//               <Button type="pointer" onClick={handleCloseOverlay}>
+//                 ✖
+//               </Button>
+//             </div>
+//             <div className="text-lg">{children}</div>
+//           </div>
+//           <div className="fixed left-0 top-0 h-full w-full bg-colorGrey100 opacity-80"></div>
+//         </div>
+//       )}
+//     </>
+//   );
+// }
+
+// export default OverlayContent;

@@ -12,12 +12,12 @@ function ContactUs() {
   const { isSmallScreen } = useScreenSize();
 
   const bannerImage = isSmallScreen
-    ? 'assets/contact-us-mobile.png'
-    : 'assets/contact-us.png';
+    ? 'assets/contact-us-400x250.png'
+    : 'assets/contact-us-1200x600.png';
 
   return (
     <div>
-      <Header2 bannerImage={bannerImage} title="Contact Us" />
+      <Header2 bannerImage={bannerImage} />
 
       <div className="container mx-auto mt-8 p-4">
         {/* <h1 className="mb-8 text-center text-3xl font-bold">Contact Us</h1> */}

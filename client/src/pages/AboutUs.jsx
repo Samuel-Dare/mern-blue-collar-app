@@ -28,12 +28,12 @@ function AboutUs() {
   const { isSmallScreen } = useScreenSize();
 
   const bannerImage = isSmallScreen
-    ? 'assets/about-us-mobile.png'
-    : 'assets/about-us.png';
+    ? 'assets/about-us-400x250.png'
+    : 'assets/about-us-1200x600.png';
 
   return (
     <div>
-      <Header2 bannerImage={bannerImage} title="About Us" />
+      <Header2 bannerImage={bannerImage} />
 
       <div className="container mx-auto mt-8 p-4">
         {/* <h1 className="mb-8 text-center text-3xl font-bold">About Us</h1> */}
@@ -43,30 +43,59 @@ function AboutUs() {
           {/* Company Overview */}
           <div>
             <Animation type="1">
-              <h2 className="text-colorBrand2 mb-5 text-xl font-bold md:text-3xl">
+              <h2 className="mb-5 text-xl font-bold text-colorBrand2 md:text-3xl">
                 Who Are We?
               </h2>
               <p className="text-gray-700 mb-4">
-                At Probrand Handlers, we believe that every small and
-                medium-sized business (SME) possesses the potential for success.
-                Since our establishment in 2018, initially as a digital
-                marketing company, we've gained valuable insights into what is
-                practical and effective. Our clients have consistently expressed
-                satisfaction with our services. As a company that has expanded
-                to offer branding solutions, our passion remains dedicated to
-                assisting SMEs in establishing robust brands and fostering
-                meaningful and profitable connections with their target
-                audience.
+                At Blue Kollars, we are more than just a service provider –
+                we're your reliable partner in simplifying your everyday life.
+                Founded on the principles of excellence, integrity, and
+                innovation, we have been serving our community for [number of
+                years] years, delivering outstanding solutions and building
+                lasting relationships with our clients.
+              </p>
+              <p className="text-gray-700 mb-4">
+                Our team consists of passionate individuals who are experts in
+                their respective fields, ranging from home services and repairs
+                to errand running and everything in between. With a keen focus
+                on quality and customer satisfaction, we strive to exceed
+                expectations with every project we undertake.
+              </p>
+              <p className="text-gray-700 mb-4">
+                What sets us apart is our commitment to providing personalized
+                experiences tailored to your unique needs. Whether you're a
+                homeowner looking for reliable handymen, a business owner in
+                need of efficient services, or someone seeking assistance with
+                everyday tasks, we have you covered.
+              </p>
+              <p className="text-gray-700 mb-4">
+                Beyond our services, we prioritize transparency, communication,
+                and trust. We believe in fostering strong connections with our
+                clients, listening to their needs, and offering solutions that
+                address their concerns effectively. With us, you can rest
+                assured that your satisfaction is our top priority.
+              </p>
+              <p className="text-gray-700 mb-4">
+                As we continue to grow and evolve, our dedication to excellence
+                remains unwavering. We constantly strive to improve our
+                processes, expand our offerings, and adapt to the changing needs
+                of our clients and the industry.
+              </p>
+              <p className="text-gray-700 mb-4">
+                Thank you for considering Blue Kollars for your service needs.
+                We look forward to the opportunity to serve you and demonstrate
+                why we are the preferred choice for countless individuals and
+                businesses in our community.
               </p>
             </Animation>
 
-            <Animation type="1">
+            {/* <Animation type="1">
               <img
                 src="assets/777.png"
                 alt=""
                 // className="h-40 w-full rounded object-cover"
               />
-            </Animation>
+            </Animation> */}
           </div>
 
           {/* Team Members */}
