@@ -83,14 +83,14 @@ function ContactUs() {
             </form> */}
 
             <form
-              action="https://formsubmit.io/send/probrandhandler@qualityservice.com"
+              action="https://formsubmit.io/send/oluwadarepsalm@gmail.com"
               method="POST"
             >
               <div>
                 <input
                   type="hidden"
                   name="_subject"
-                  value="New Email Message from Probrandhandlers!"
+                  value="New Email Message from Blue Kollars (woooo!)"
                 />
                 <input
                   type="hidden"
@@ -157,8 +157,8 @@ function ContactUs() {
                 <FaEnvelope />
               </i>
               <span className="font-semibold">Email:</span>{' '}
-              <a href="mailto:probrandhandlers@qualityservice.com">
-                probrandhandler@qualityservice.com
+              <a href="mailto:oluwadaresamuel39@gmail.com">
+                support@bluekollars.com
               </a>
             </p>
             <p className="text-gray-700 mb-2 flex gap-1">
@@ -166,15 +166,14 @@ function ContactUs() {
                 <FaPhone />
               </i>
               <span className="font-semibold">Phone:</span>{' '}
-              <a href="tel:+2348154005211">+2348154005211</a>
+              <a href="tel:+2347080450473">+2347080450473</a>
             </p>
             <p className="text-gray-700 mb-2 flex gap-1">
               <i className="mt-1">
                 <FaWhatsapp />
               </i>
               <span className="font-semibold">WhatsApp:</span>{' '}
-              {/* <a href="https://api.whatsapp.com/send?phone=15551234567"> */}
-              <a href="https://wa.me/message/JISFLWSZK74GD1">+2348154005211</a>
+              <a href="">+2347080450473</a>
             </p>
             {/* <p className="text-gray-700">
               <span className="font-semibold">Address:</span> 123 Jide Str,
